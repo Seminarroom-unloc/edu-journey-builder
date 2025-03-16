@@ -266,9 +266,9 @@ const Course = () => {
                   <div className="text-center md:text-left">
                     <div className="text-5xl font-bold text-primary">{course.rating}</div>
                     <div className="flex text-yellow-500 my-2 justify-center md:justify-start">
-                      {'★'.repeat(Math.floor(course.rating))}
+                      {Array(Math.floor(course.rating)).fill('★').join('')}
                       {course.rating % 1 > 0 ? '½' : ''}
-                      {'☆'.repeat(5 - Math.ceil(course.rating))}
+                      {Array(5 - Math.ceil(course.rating)).fill('☆').join('')}
                     </div>
                     <div className="text-sm text-muted-foreground">{course.reviews} reviews</div>
                   </div>
@@ -321,8 +321,8 @@ const Course = () => {
                           <div>
                             <h4 className="font-medium">{review.name}</h4>
                             <div className="flex text-yellow-500 text-sm">
-                              {'★'.repeat(review.rating)}
-                              {'☆'.repeat(5 - review.rating)}
+                              {Array(review.rating).fill('★').join('')}
+                              {Array(5 - review.rating).fill('☆').join('')}
                             </div>
                           </div>
                         </div>
