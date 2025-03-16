@@ -89,7 +89,7 @@ const COURSE = {
       ]
     }
   ],
-  reviews: [
+  courseReviews: [
     {
       id: 'r1',
       name: 'John Doe',
@@ -137,6 +137,20 @@ const Course = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+  
+  const renderStars = (rating: number) => {
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 > 0;
+    const emptyStars = 5 - Math.ceil(rating);
+    
+    return (
+      <>
+        {Array(fullStars).fill('★').join('')}
+        {hasHalfStar ? '½' : ''}
+        {Array(emptyStars).fill('☆').join('')}
+      </>
+    );
+  };
   
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
@@ -332,9 +346,7 @@ const Course = () => {
                       <div className="text-center md:text-left">
                         <div className="text-5xl font-bold text-primary">{COURSE.rating}</div>
                         <div className="flex text-yellow-500 my-2 justify-center md:justify-start">
-                          {Array(Math.floor(COURSE.rating)).fill('★').join('')}
-                          {COURSE.rating % 1 > 0 ? '½' : ''}
-                          {Array(5 - Math.ceil(COURSE.rating)).fill('☆').join('')}
+                          {renderStars(COURSE.rating)}
                         </div>
                         <div className="text-sm text-muted-foreground">{COURSE.reviews} reviews</div>
                       </div>
@@ -480,9 +492,7 @@ const Course = () => {
                     <div className="text-center md:text-left mb-6">
                       <div className="text-5xl font-bold text-primary">{COURSE.rating}</div>
                       <div className="flex text-yellow-500 my-2 justify-center md:justify-start">
-                        {Array(Math.floor(COURSE.rating)).fill('★').join('')}
-                        {COURSE.rating % 1 > 0 ? '½' : ''}
-                        {Array(5 - Math.ceil(COURSE.rating)).fill('☆').join('')}
+                        {renderStars(COURSE.rating)}
                       </div>
                       <div className="text-sm text-muted-foreground">{COURSE.reviews} reviews</div>
                     </div>
@@ -508,7 +518,7 @@ const Course = () => {
                 </div>
                 
                 <div className="space-y-6">
-                  {COURSE.reviews.map((review) => (
+                  {COURSE.courseReviews.map((review) => (
                     <div key={review.id} className="border-b border-border pb-6">
                       <div className="flex items-start gap-4">
                         <Avatar className="h-10 w-10">
@@ -518,8 +528,7 @@ const Course = () => {
                         <div>
                           <h4 className="font-medium">{review.name}</h4>
                           <div className="flex text-yellow-500 text-sm">
-                            {Array(review.rating).fill('★').join('')}
-                            {Array(5 - review.rating).fill('☆').join('')}
+                            {renderStars(review.rating)}
                           </div>
                           <div className="text-sm text-muted-foreground mt-1">
                             {new Date(review.date).toLocaleDateString('en-US', {

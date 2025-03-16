@@ -1,3 +1,4 @@
+
 import { useEffect } from 'react';
 import CourseCard from '@/components/CourseCard';
 import { Separator } from '@/components/ui/separator';
@@ -78,8 +79,6 @@ const Index = () => {
   
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
-      <Navbar />
-      
       {/* Hero Section */}
       <section className="pt-32 pb-16 px-4 md:px-6 bg-gradient-to-r from-slate-50 to-indigo-50 dark:from-slate-900 dark:to-slate-800">
         <div className="container mx-auto max-w-6xl">
@@ -127,9 +126,7 @@ const Index = () => {
                 key={course.id}
                 {...course}
                 className="animate-slide-in"
-                style={{
-                  animationDelay: `${parseInt(course.id) * 100}ms`
-                }}
+                animationDelay={`${parseInt(course.id) * 100}ms`}
               />
             ))}
           </div>

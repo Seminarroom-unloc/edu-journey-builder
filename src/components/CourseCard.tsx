@@ -23,6 +23,7 @@ interface CourseCardProps {
   level: 'Beginner' | 'Intermediate' | 'Advanced';
   imgSrc?: string;
   className?: string;
+  animationDelay?: string;
 }
 
 const CourseCard = ({
@@ -35,14 +36,15 @@ const CourseCard = ({
   modules,
   level,
   imgSrc,
-  className
+  className,
+  animationDelay
 }: CourseCardProps) => {
   return (
     <Link to={`/course/${id}`}>
       <Card className={cn(
         "overflow-hidden card-hover border border-border/40", 
         className
-      )}>
+      )} style={animationDelay ? { animationDelay } : undefined}>
         {imgSrc && (
           <div className="aspect-[16/9] overflow-hidden bg-muted">
             <img 
