@@ -41,7 +41,7 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <GraduationCap className="h-8 w-8 text-primary" />
-            <span className="text-xl font-bold tracking-tight">EduJourney</span>
+            <span className="text-xl font-bold tracking-tight">Seminarroom</span>
           </Link>
           
           {/* Desktop Navigation */}

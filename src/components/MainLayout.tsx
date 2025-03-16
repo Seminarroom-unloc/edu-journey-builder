@@ -25,13 +25,8 @@ export default function MainLayout() {
   return (
     <SidebarProvider defaultOpen={true}>
       <div className="min-h-screen flex w-full">
-        {/* Main Content */}
-        <div className="flex-1">
-          <Outlet />
-        </div>
-        
-        {/* Right Sidebar */}
-        <Sidebar side="right" variant="sidebar" collapsible="icon">
+        {/* Left Sidebar */}
+        <Sidebar side="left" variant="sidebar" collapsible="icon">
           <SidebarContent>
             <div className="flex items-center h-16 px-4 border-b">
               <h1 className="text-xl font-bold">Seminarroom</h1>
@@ -100,6 +95,11 @@ export default function MainLayout() {
             </SidebarGroup>
           </SidebarContent>
         </Sidebar>
+        
+        {/* Main Content */}
+        <div className="flex-1">
+          <Outlet />
+        </div>
       </div>
     </SidebarProvider>
   );
