@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -5,6 +6,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import MainLayout from "./components/MainLayout";
+import Assignments from "./pages/Assignments";
+import ReadingMaterials from "./pages/ReadingMaterials";
+import Quizzes from "./pages/Quizzes";
+import Discussions from "./pages/Discussions";
 
 const queryClient = new QueryClient();
 
@@ -15,7 +21,20 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<Index />} />
+            <Route path="/assignments" element={<Assignments />} />
+            <Route path="/reading-materials" element={<ReadingMaterials />} />
+            <Route path="/quizzes" element={<Quizzes />} />
+            <Route path="/discussions" element={<Discussions />} />
+            {/* Placeholder routes for new navigation items */}
+            <Route path="/dashboard" element={<div className="pt-32 container mx-auto">Dashboard Coming Soon</div>} />
+            <Route path="/explore" element={<div className="pt-32 container mx-auto">Explore Coming Soon</div>} />
+            <Route path="/calendar" element={<div className="pt-32 container mx-auto">Calendar Coming Soon</div>} />
+            <Route path="/cart" element={<div className="pt-32 container mx-auto">Cart Coming Soon</div>} />
+            <Route path="/practice" element={<div className="pt-32 container mx-auto">Practice Coming Soon</div>} />
+            <Route path="/live-challenges" element={<div className="pt-32 container mx-auto">Live Challenges Coming Soon</div>} />
+          </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

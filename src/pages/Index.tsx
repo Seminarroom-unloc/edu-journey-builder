@@ -1,7 +1,5 @@
-
 import { useEffect } from 'react';
 import CourseCard from '@/components/CourseCard';
-import Navbar from '@/components/Navbar';
 import { Separator } from '@/components/ui/separator';
 
 const COURSES = [
@@ -173,7 +171,7 @@ const Index = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
-                <h3 className="text-xl font-bold">EduJourney</h3>
+                <h3 className="text-xl font-bold">Seminarroom</h3>
               </div>
               <p className="text-muted-foreground text-sm">
                 Expanding knowledge and empowering learners worldwide.
@@ -212,7 +210,7 @@ const Index = () => {
           
           <div className="mt-12 pt-6 border-t border-border">
             <p className="text-center text-sm text-muted-foreground">
-              © {new Date().getFullYear()} EduJourney. All rights reserved.
+              © {new Date().getFullYear()} Seminarroom. All rights reserved.
             </p>
           </div>
         </div>
