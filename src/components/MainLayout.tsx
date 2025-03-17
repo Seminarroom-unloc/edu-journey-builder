@@ -17,9 +17,11 @@ import {
   ShoppingCart, 
   BookOpen,
   Code, 
-  Zap
+  Zap,
+  User
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function MainLayout() {
   return (
@@ -31,6 +33,21 @@ export default function MainLayout() {
             <div className="flex items-center h-16 px-4 border-b">
               <h1 className="text-xl font-bold">Seminarroom</h1>
             </div>
+            
+            {/* Profile Section */}
+            <div className="px-4 py-4 border-b">
+              <div className="flex items-center gap-3">
+                <Avatar>
+                  <AvatarImage src="https://github.com/shadcn.png" alt="Mark Geiler" />
+                  <AvatarFallback>MG</AvatarFallback>
+                </Avatar>
+                <div className="flex flex-col">
+                  <span className="font-medium text-sm">Mark Geiler</span>
+                  <span className="text-xs text-muted-foreground">Student</span>
+                </div>
+              </div>
+            </div>
+            
             <SidebarGroup>
               <SidebarGroupContent>
                 <SidebarMenu>
@@ -43,7 +60,7 @@ export default function MainLayout() {
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                   <SidebarMenuItem>
-                    <SidebarMenuButton asChild tooltip="Explore">
+                    <SidebarMenuButton asChild tooltip="Explore" isActive={window.location.pathname === "/explore"}>
                       <Link to="/explore">
                         <Compass />
                         <span>Explore</span>
@@ -87,6 +104,14 @@ export default function MainLayout() {
                       <Link to="/live-challenges">
                         <Zap />
                         <span>Live Challenges</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild tooltip="Profile">
+                      <Link to="/profile">
+                        <User />
+                        <span>Profile</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>

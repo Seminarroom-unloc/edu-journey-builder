@@ -12,6 +12,7 @@ import ReadingMaterials from "./pages/ReadingMaterials";
 import Quizzes from "./pages/Quizzes";
 import Discussions from "./pages/Discussions";
 import Course from "./pages/Course";
+import Explore from "./pages/Explore";
 
 const queryClient = new QueryClient();
 
@@ -29,13 +30,14 @@ const App = () => (
             <Route path="/quizzes" element={<Quizzes />} />
             <Route path="/discussions" element={<Discussions />} />
             <Route path="/course/:id" element={<Course />} />
+            <Route path="/explore" element={<Explore />} />
             {/* Placeholder routes for new navigation items */}
             <Route path="/dashboard" element={<div className="pt-32 container mx-auto">Dashboard Coming Soon</div>} />
-            <Route path="/explore" element={<div className="pt-32 container mx-auto">Explore Coming Soon</div>} />
             <Route path="/calendar" element={<div className="pt-32 container mx-auto">Calendar Coming Soon</div>} />
             <Route path="/cart" element={<div className="pt-32 container mx-auto">Cart Coming Soon</div>} />
             <Route path="/practice" element={<div className="pt-32 container mx-auto">Practice Coming Soon</div>} />
             <Route path="/live-challenges" element={<div className="pt-32 container mx-auto">Live Challenges Coming Soon</div>} />
+            <Route path="/profile" element={<div className="pt-32 container mx-auto">Profile Coming Soon</div>} />
           </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
