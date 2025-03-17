@@ -1,109 +1,160 @@
 
-import React, { useState } from "react";
+import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage, FormDescription } from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
-import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
-import { useForm } from "react-hook-form";
-import { AlertTriangle, Send } from "lucide-react";
-
-type ReportFormValues = {
-  subject: string;
-  description: string;
-  attachmentUrl?: string;
-};
+import { 
+  FileChartLine, 
+  Award, 
+  GraduationCap, 
+  ChartBar 
+} from "lucide-react";
 
 const Report = () => {
-  const form = useForm<ReportFormValues>({
-    defaultValues: {
-      subject: "",
-      description: "",
-      attachmentUrl: "",
-    },
-  });
-
-  const onSubmit = (data: ReportFormValues) => {
-    // In a real app, you would submit to backend here
-    console.log("Report submitted:", data);
-    toast.success("Report submitted successfully!");
-    form.reset();
+  // Sample student performance data
+  const performanceData = {
+    overallGrade: "A-",
+    completionRate: "87%",
+    averageScore: "84%",
+    participation: "92%",
+    strengths: ["Problem Solving", "Critical Thinking", "Research Skills"],
+    areasToImprove: ["Time Management", "Group Participation"],
+    coursePerformance: [
+      { course: "Data Science Fundamentals", grade: "A", completionRate: "95%" },
+      { course: "Web Development Masterclass", grade: "B+", completionRate: "82%" },
+      { course: "Database Systems", grade: "A-", completionRate: "88%" },
+      { course: "UX/UI Design Principles", grade: "B", completionRate: "79%" },
+      { course: "Computer Science Basics", grade: "A", completionRate: "93%" }
+    ]
   };
 
   return (
-    <div className="container mx-auto py-8 max-w-3xl">
-      <Card className="border-none shadow-md">
-        <CardHeader>
+    <div className="container mx-auto py-8 max-w-4xl">
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold mb-2">Student Performance Report</h1>
+        <p className="text-muted-foreground">A comprehensive overview of your academic performance across all courses.</p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+        <Card className="border border-muted/20">
+          <CardHeader className="pb-2">
+            <div className="flex items-center space-x-2">
+              <FileChartLine className="h-5 w-5 text-primary" />
+              <CardTitle className="text-xl">Overall Performance</CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-muted/20 p-4 rounded-lg text-center">
+                <p className="text-sm text-muted-foreground">Overall Grade</p>
+                <p className="text-3xl font-bold text-primary mt-1">{performanceData.overallGrade}</p>
+              </div>
+              <div className="bg-muted/20 p-4 rounded-lg text-center">
+                <p className="text-sm text-muted-foreground">Completion Rate</p>
+                <p className="text-3xl font-bold text-primary mt-1">{performanceData.completionRate}</p>
+              </div>
+              <div className="bg-muted/20 p-4 rounded-lg text-center">
+                <p className="text-sm text-muted-foreground">Average Score</p>
+                <p className="text-3xl font-bold text-primary mt-1">{performanceData.averageScore}</p>
+              </div>
+              <div className="bg-muted/20 p-4 rounded-lg text-center">
+                <p className="text-sm text-muted-foreground">Participation</p>
+                <p className="text-3xl font-bold text-primary mt-1">{performanceData.participation}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border border-muted/20">
+          <CardHeader className="pb-2">
+            <div className="flex items-center space-x-2">
+              <Award className="h-5 w-5 text-primary" />
+              <CardTitle className="text-xl">Skills Assessment</CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-sm font-medium mb-2">Strengths</h3>
+                <div className="flex flex-wrap gap-2">
+                  {performanceData.strengths.map((strength, index) => (
+                    <span key={index} className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">
+                      {strength}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h3 className="text-sm font-medium mb-2">Areas to Improve</h3>
+                <div className="flex flex-wrap gap-2">
+                  {performanceData.areasToImprove.map((area, index) => (
+                    <span key={index} className="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-sm">
+                      {area}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      <Card className="border border-muted/20 mb-8">
+        <CardHeader className="pb-2">
           <div className="flex items-center space-x-2">
-            <AlertTriangle className="h-5 w-5 text-amber-500" />
-            <CardTitle className="text-2xl font-bold">Submit a Report</CardTitle>
+            <GraduationCap className="h-5 w-5 text-primary" />
+            <CardTitle className="text-xl">Course Performance</CardTitle>
           </div>
-          <p className="text-muted-foreground">
-            Use this form to report any issues you've encountered or to request assistance.
-          </p>
         </CardHeader>
         <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <FormField
-                control={form.control}
-                name="subject"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Subject</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Brief description of the issue" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Description</FormLabel>
-                    <FormControl>
-                      <Textarea 
-                        placeholder="Please provide detailed information about the issue..." 
-                        rows={6}
-                        {...field} 
-                      />
-                    </FormControl>
-                    <FormDescription>
-                      Include as much detail as possible including steps to reproduce the issue.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <FormField
-                control={form.control}
-                name="attachmentUrl"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Attachment URL (optional)</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Link to screenshot or relevant document" {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      You can provide a link to a screenshot or document that helps explain the issue.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <Button type="submit" className="w-full">
-                <Send className="mr-2 h-4 w-4" /> 
-                Submit Report
-              </Button>
-            </form>
-          </Form>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b">
+                  <th className="text-left py-3 px-4">Course</th>
+                  <th className="text-left py-3 px-4">Grade</th>
+                  <th className="text-left py-3 px-4">Completion</th>
+                </tr>
+              </thead>
+              <tbody>
+                {performanceData.coursePerformance.map((course, index) => (
+                  <tr key={index} className={index % 2 === 0 ? "bg-muted/10" : ""}>
+                    <td className="py-3 px-4">{course.course}</td>
+                    <td className="py-3 px-4">
+                      <span className={`font-medium ${
+                        course.grade.startsWith('A') 
+                          ? 'text-green-600' 
+                          : course.grade.startsWith('B') 
+                            ? 'text-blue-600' 
+                            : 'text-amber-600'
+                      }`}>
+                        {course.grade}
+                      </span>
+                    </td>
+                    <td className="py-3 px-4">{course.completionRate}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="border border-muted/20">
+        <CardHeader className="pb-2">
+          <div className="flex items-center space-x-2">
+            <ChartBar className="h-5 w-5 text-primary" />
+            <CardTitle className="text-xl">Instructor Feedback</CardTitle>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="bg-muted/10 p-4 rounded-lg">
+            <p className="italic text-muted-foreground">
+              "This student demonstrates excellent analytical skills and consistently produces high-quality work. 
+              They engage well with course materials and contribute thoughtfully to discussions.
+              To improve further, focus on developing stronger time management skills and increasing
+              participation in group activities."
+            </p>
+            <p className="mt-3 text-sm font-medium">- Prof. Sarah Johnson, Academic Advisor</p>
+          </div>
         </CardContent>
       </Card>
     </div>
