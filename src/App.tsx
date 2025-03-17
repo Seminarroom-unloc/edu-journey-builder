@@ -11,6 +11,7 @@ import Assignments from "./pages/Assignments";
 import ReadingMaterials from "./pages/ReadingMaterials";
 import Quizzes from "./pages/Quizzes";
 import Discussions from "./pages/Discussions";
+import Course from "./pages/Course";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ const App = () => (
             <Route path="/reading-materials" element={<ReadingMaterials />} />
             <Route path="/quizzes" element={<Quizzes />} />
             <Route path="/discussions" element={<Discussions />} />
+            <Route path="/course/:id" element={<Course />} />
             {/* Placeholder routes for new navigation items */}
             <Route path="/dashboard" element={<div className="pt-32 container mx-auto">Dashboard Coming Soon</div>} />
             <Route path="/explore" element={<div className="pt-32 container mx-auto">Explore Coming Soon</div>} />
