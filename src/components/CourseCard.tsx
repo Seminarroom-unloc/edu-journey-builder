@@ -1,8 +1,9 @@
 
-import { ArrowRight, Clock, BookOpen, User } from 'lucide-react';
+import { ArrowRight, Clock, BookOpen, User, Calendar } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { 
   Card, 
   CardContent, 
