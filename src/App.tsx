@@ -17,6 +17,7 @@ import Profile from "./pages/Profile";
 import ProfileDetails from "./pages/ProfileDetails";
 import SessionHistory from "./pages/SessionHistory";
 import Report from "./pages/Report";
+import CalendarPage from "./pages/CalendarPage";
 
 const queryClient = new QueryClient();
 
@@ -39,9 +40,8 @@ const App = () => (
             <Route path="/profile/details" element={<ProfileDetails />} />
             <Route path="/profile/history" element={<SessionHistory />} />
             <Route path="/profile/report" element={<Report />} />
-            {/* Placeholder routes for new navigation items */}
             <Route path="/dashboard" element={<div className="pt-32 container mx-auto">Dashboard Coming Soon</div>} />
-            <Route path="/calendar" element={<div className="pt-32 container mx-auto">Calendar Coming Soon</div>} />
+            <Route path="/calendar" element={<CalendarPage />} />
             <Route path="/cart" element={<div className="pt-32 container mx-auto">Cart Coming Soon</div>} />
             <Route path="/practice" element={<div className="pt-32 container mx-auto">Practice Coming Soon</div>} />
             <Route path="/live-challenges" element={<div className="pt-32 container mx-auto">Live Challenges Coming Soon</div>} />
