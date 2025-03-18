@@ -1,16 +1,24 @@
-
 import React, { useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
-import { Card, CardContent } from "@/components/ui/card";
-import { format, isBefore, isToday, addDays, isAfter } from "date-fns";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { format, isBefore, isToday, addDays, isAfter, isSameDay } from "date-fns";
 import { Button } from "@/components/ui/button";
-import { Filter } from "lucide-react";
+import { Filter, CalendarClock } from "lucide-react";
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle
+} from "@/components/ui/dialog";
 import { SessionDetailsDialog } from "@/components/SessionDetailsDialog";
 import { CalendarEvent } from "@/types/calendar";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const CalendarPage = () => {
   const [date, setDate] = useState<Date>(new Date());
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [isDateDialogOpen, setIsDateDialogOpen] = useState(false);
+  const [isEventDialogOpen, setIsEventDialogOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
   
   // Current date for upcoming events calculation
@@ -78,7 +86,6 @@ const CalendarPage = () => {
       tags: ["Databases", "SQL"],
       imageUrl: "/lovable-uploads/036ce3de-ca69-4830-9b71-ff1fd7d7c0ed.png"
     },
-    // Adding example upcoming sessions with dates relative to current date
     {
       id: "6",
       name: "JavaScript Fundamentals",
@@ -139,31 +146,29 @@ const CalendarPage = () => {
     return result;
   }
 
-  // Find events for the current month
-  const currentMonthEvents = events.filter(event => 
-    event.date.getMonth() === date.getMonth() && 
-    event.date.getFullYear() === date.getFullYear()
-  );
+  // Get events for a specific day
+  const getEventsForDay = (day: Date) => {
+    return events.filter(event => 
+      isSameDay(event.date, day)
+    );
+  };
 
-  // Get upcoming events (events that are today or in the future)
-  const upcomingEvents = events
-    .filter(event => isToday(event.date) || isAfter(event.date, currentDate))
-    .sort((a, b) => a.date.getTime() - b.date.getTime())
-    .slice(0, 5); // Show only next 5 upcoming events
+  // Handle day click
+  const handleDayClick = (day: Date) => {
+    setSelectedDate(day);
+    setIsDateDialogOpen(true);
+  };
 
   // Handle event click
   const handleEventClick = (event: CalendarEvent) => {
     setSelectedEvent(event);
-    setIsDialogOpen(true);
+    setIsEventDialogOpen(true);
+    setIsDateDialogOpen(false); // Close the date dialog if open
   };
 
   // Render event indicators for the calendar
   const renderEventIndicators = (day: Date) => {
-    const dayEvents = events.filter(event => 
-      event.date.getDate() === day.getDate() &&
-      event.date.getMonth() === day.getMonth() &&
-      event.date.getFullYear() === day.getFullYear()
-    );
+    const dayEvents = getEventsForDay(day);
 
     if (dayEvents.length === 0) return null;
 
@@ -190,124 +195,96 @@ const CalendarPage = () => {
     <div className="container mx-auto py-8">
       <h1 className="text-2xl font-bold mb-6">Calendar</h1>
       
-      <div className="flex flex-col lg:flex-row gap-6">
-        {/* Calendar View - Made bigger */}
-        <div className="flex-1">
-          <Card className="h-full">
-            <CardContent className="pt-6 h-full">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-medium">{format(date, 'MMMM yyyy')}</h2>
-                <Button variant="outline" size="sm">
-                  <Filter className="h-4 w-4 mr-2" />
-                  Filter
-                </Button>
-              </div>
-              
-              <Calendar
-                mode="default"
-                className="rounded-md border w-full max-w-none" // Made calendar bigger
-                onMonthChange={setDate}
-                components={{
-                  DayContent: ({ date, ...props }) => {
-                    return (
-                      <div className="relative h-9 w-9 p-0 font-normal aria-selected:opacity-100">
-                        <div>{date.getDate()}</div>
-                        {renderEventIndicators(date)}
-                      </div>
-                    );
-                  }
-                }}
-              />
-            </CardContent>
-          </Card>
-        </div>
-        
-        <div className="w-full lg:w-1/3 space-y-6">
-          {/* Upcoming Sessions Section */}
-          <Card className="mb-6">
-            <CardContent className="pt-6">
-              <h2 className="text-xl font-medium mb-4">Upcoming Sessions</h2>
-              <div className="space-y-4">
-                {upcomingEvents.length > 0 ? (
-                  upcomingEvents.map((event) => (
-                    <div 
-                      key={event.id}
-                      className="p-3 rounded-md border cursor-pointer transition-colors hover:bg-muted/50"
-                      onClick={() => handleEventClick(event)}
-                    >
-                      <div className="flex items-center gap-2 mb-1">
-                        <div className={`h-3 w-3 rounded-full ${
-                          event.type === 'course' ? 'bg-blue-500' : 
-                          event.type === 'quiz' ? 'bg-amber-500' : 
-                          'bg-green-500'
-                        }`} />
-                        <p className="font-medium">{event.name}</p>
-                      </div>
-                      <p className="text-sm text-muted-foreground">
-                        {format(event.date, 'EEEE, MMMM d • h:mm a')}
-                      </p>
-                      <div className="flex flex-wrap gap-1 mt-2">
-                        {event.tags.map((tag, index) => (
-                          <span key={index} className="text-xs bg-muted px-2 py-0.5 rounded">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-center text-muted-foreground py-4">No upcoming sessions</p>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-          
-          {/* Events List */}
-          <Card>
-            <CardContent className="pt-6">
-              <h2 className="text-xl font-medium mb-4">Events This Month</h2>
-              <div className="space-y-4">
-                {currentMonthEvents.map((event) => (
-                  <div 
-                    key={event.id}
-                    className="p-3 rounded-md border cursor-pointer transition-colors hover:bg-muted/50"
-                    onClick={() => handleEventClick(event)}
-                  >
-                    <div className="flex items-center gap-2 mb-1">
-                      <div className={`h-3 w-3 rounded-full ${
-                        event.type === 'course' ? 'bg-blue-500' : 
-                        event.type === 'quiz' ? 'bg-amber-500' : 
-                        'bg-green-500'
-                      }`} />
-                      <p className="font-medium">{event.name}</p>
-                    </div>
-                    <p className="text-sm text-muted-foreground">
-                      {format(event.date, 'EEEE, MMMM d • h:mm a')}
-                    </p>
-                    <div className="flex flex-wrap gap-1 mt-2">
-                      {event.tags.map((tag, index) => (
-                        <span key={index} className="text-xs bg-muted px-2 py-0.5 rounded">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
+      <Card className="w-full">
+        <CardHeader className="flex flex-row items-center justify-between px-6">
+          <CardTitle className="text-xl">{format(date, 'MMMM yyyy')}</CardTitle>
+          <Button variant="outline" size="sm">
+            <Filter className="h-4 w-4 mr-2" />
+            Filter
+          </Button>
+        </CardHeader>
+        <CardContent className="p-6">
+          <TooltipProvider>
+            <Calendar
+              mode="default"
+              className="rounded-md border w-full max-w-none"
+              onMonthChange={setDate}
+              onDayClick={handleDayClick}
+              components={{
+                DayContent: ({ date, ...props }) => {
+                  return (
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <div className="relative h-12 w-12 p-2 font-normal aria-selected:opacity-100 flex items-center justify-center hover:bg-muted/50 rounded-md cursor-pointer">
+                          <div>{date.getDate()}</div>
+                          {renderEventIndicators(date)}
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        {getEventsForDay(date).length > 0 
+                          ? `${getEventsForDay(date).length} events`
+                          : "No events"}
+                      </TooltipContent>
+                    </Tooltip>
+                  );
+                }
+              }}
+            />
+          </TooltipProvider>
+        </CardContent>
+      </Card>
+
+      {/* Date events dialog */}
+      <Dialog open={isDateDialogOpen} onOpenChange={setIsDateDialogOpen}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>
+              {selectedDate && format(selectedDate, 'EEEE, MMMM d, yyyy')}
+            </DialogTitle>
+          </DialogHeader>
+
+          <div className="space-y-4 mt-4">
+            {selectedDate && getEventsForDay(selectedDate).length > 0 ? (
+              getEventsForDay(selectedDate).map((event) => (
+                <div 
+                  key={event.id}
+                  className="p-3 rounded-md border cursor-pointer transition-colors hover:bg-muted/50"
+                  onClick={() => handleEventClick(event)}
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    <div className={`h-3 w-3 rounded-full ${
+                      event.type === 'course' ? 'bg-blue-500' : 
+                      event.type === 'quiz' ? 'bg-amber-500' : 
+                      'bg-green-500'
+                    }`} />
+                    <p className="font-medium">{event.name}</p>
                   </div>
-                ))}
-                {currentMonthEvents.length === 0 && (
-                  <p className="text-center text-muted-foreground py-4">No events this month</p>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+                  <p className="text-sm text-muted-foreground flex items-center gap-1">
+                    <CalendarClock className="h-4 w-4" />
+                    {format(event.date, 'h:mm a')} - {format(event.endDate, 'h:mm a')}
+                  </p>
+                  <div className="flex flex-wrap gap-1 mt-2">
+                    {event.tags.map((tag, index) => (
+                      <span key={index} className="text-xs bg-muted px-2 py-0.5 rounded">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="text-center text-muted-foreground py-6">No events scheduled for this day</p>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Session Details Dialog */}
       {selectedEvent && (
         <SessionDetailsDialog 
           event={selectedEvent} 
-          open={isDialogOpen} 
-          onOpenChange={setIsDialogOpen} 
+          open={isEventDialogOpen} 
+          onOpenChange={setIsEventDialogOpen} 
         />
       )}
     </div>
