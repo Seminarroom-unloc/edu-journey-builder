@@ -140,11 +140,11 @@ const CalendarPage = () => {
                 className="rounded-md border"
                 onMonthChange={setDate}
                 components={{
-                  DayContent: (props) => {
+                  DayContent: ({ date, ...props }) => {
                     return (
                       <div className="relative h-9 w-9 p-0 font-normal aria-selected:opacity-100">
-                        <div>{props.day.getDate()}</div>
-                        {renderEventIndicators(props.day)}
+                        <div>{date.getDate()}</div>
+                        {renderEventIndicators(date)}
                       </div>
                     );
                   }
