@@ -21,10 +21,8 @@ const CalendarPage = () => {
   const [isEventDialogOpen, setIsEventDialogOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
   
-  // Current date for upcoming events calculation
   const currentDate = new Date();
   
-  // Mock calendar events
   const events: CalendarEvent[] = [
     {
       id: "1",
@@ -136,7 +134,6 @@ const CalendarPage = () => {
     }
   ];
 
-  // Helper function to add hours to date
   function addDays(date: Date, days: number, hours: number = 0): Date {
     const result = new Date(date);
     result.setDate(result.getDate() + days);
@@ -146,27 +143,23 @@ const CalendarPage = () => {
     return result;
   }
 
-  // Get events for a specific day
   const getEventsForDay = (day: Date) => {
     return events.filter(event => 
       isSameDay(event.date, day)
     );
   };
 
-  // Handle day click
   const handleDayClick = (day: Date) => {
     setSelectedDate(day);
     setIsDateDialogOpen(true);
   };
 
-  // Handle event click
   const handleEventClick = (event: CalendarEvent) => {
     setSelectedEvent(event);
     setIsEventDialogOpen(true);
-    setIsDateDialogOpen(false); // Close the date dialog if open
+    setIsDateDialogOpen(false);
   };
 
-  // Render event indicators for the calendar
   const renderEventIndicators = (day: Date) => {
     const dayEvents = getEventsForDay(day);
 
@@ -208,6 +201,7 @@ const CalendarPage = () => {
             <Calendar
               mode="default"
               className="rounded-md border w-full max-w-none"
+              style={{ minWidth: "100%" }}
               onMonthChange={setDate}
               onDayClick={handleDayClick}
               components={{
@@ -215,7 +209,7 @@ const CalendarPage = () => {
                   return (
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <div className="relative h-12 w-12 p-2 font-normal aria-selected:opacity-100 flex items-center justify-center hover:bg-muted/50 rounded-md cursor-pointer">
+                        <div className="relative h-14 w-14 p-2 font-normal aria-selected:opacity-100 flex items-center justify-center hover:bg-muted/50 rounded-md cursor-pointer">
                           <div>{date.getDate()}</div>
                           {renderEventIndicators(date)}
                         </div>
@@ -234,7 +228,6 @@ const CalendarPage = () => {
         </CardContent>
       </Card>
 
-      {/* Date events dialog */}
       <Dialog open={isDateDialogOpen} onOpenChange={setIsDateDialogOpen}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
@@ -279,7 +272,6 @@ const CalendarPage = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Session Details Dialog */}
       {selectedEvent && (
         <SessionDetailsDialog 
           event={selectedEvent} 
