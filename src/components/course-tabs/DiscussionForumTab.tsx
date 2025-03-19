@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { MessageCircle, User, ThumbsUp, Reply, Plus } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -60,16 +61,21 @@ const DISCUSSIONS = [
 
 const DiscussionForumTab = ({ courseId }: DiscussionForumTabProps) => {
   const [expanded, setExpanded] = useState<string | null>(null);
+  const navigate = useNavigate();
   
   const toggleExpand = (id: string) => {
     setExpanded(expanded === id ? null : id);
+  };
+  
+  const handleNewDiscussion = () => {
+    navigate(`/new-discussion/${courseId}`);
   };
   
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold">Discussion Forum</h2>
-        <Button>
+        <Button onClick={handleNewDiscussion}>
           <Plus className="mr-2 h-4 w-4" />
           New Discussion
         </Button>

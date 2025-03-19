@@ -216,20 +216,7 @@ const Course = () => {
                   />
                 </div>
                 <CardContent className="p-6">
-                  <div className="mb-4">
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-3xl font-bold">${COURSE.discountedPrice}</span>
-                      <span className="text-xl text-muted-foreground line-through">${COURSE.price}</span>
-                      <span className="text-sm font-medium text-green-600">
-                        {Math.round((1 - COURSE.discountedPrice / COURSE.price) * 100)}% off
-                      </span>
-                    </div>
-                  </div>
-                  
-                  <Button className="w-full mb-3">Enroll Now</Button>
-                  <Button variant="outline" className="w-full">Add to Wishlist</Button>
-                  
-                  <div className="mt-6 space-y-3">
+                  <div className="space-y-3">
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">Total hours</span>
                       <span>{COURSE.totalHours}</span>
@@ -258,6 +245,14 @@ const Course = () => {
                         </span>
                       </div>
                     )}
+                  </div>
+                  
+                  <div className="mt-6 flex gap-3">
+                    <Button className="flex-1">Enroll Now</Button>
+                    <Button variant="outline" className="flex-1">
+                      <Heart className="h-4 w-4 mr-2" />
+                      Wishlist
+                    </Button>
                   </div>
                 </CardContent>
               </Card>

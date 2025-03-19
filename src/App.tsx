@@ -18,6 +18,7 @@ import ProfileDetails from "./pages/ProfileDetails";
 import SessionHistory from "./pages/SessionHistory";
 import Report from "./pages/Report";
 import CalendarPage from "./pages/CalendarPage";
+import NewDiscussion from "./pages/NewDiscussion";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ const App = () => (
             <Route path="/quizzes" element={<Quizzes />} />
             <Route path="/discussions" element={<Discussions />} />
             <Route path="/course/:id" element={<Course />} />
+            <Route path="/new-discussion/:courseId" element={<NewDiscussion />} />
             <Route path="/explore" element={<Explore />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/profile/details" element={<ProfileDetails />} />
