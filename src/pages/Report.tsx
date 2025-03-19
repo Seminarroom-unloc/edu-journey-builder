@@ -5,8 +5,14 @@ import {
   FileChartLine, 
   Award, 
   GraduationCap, 
-  ChartBar 
+  ChartBar,
+  Briefcase,
+  Code,
+  Github,
+  ExternalLink
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { CalendarEvent } from "@/types/calendar";
 
 const Report = () => {
   // Sample student performance data
@@ -23,6 +29,48 @@ const Report = () => {
       { course: "Database Systems", grade: "A-", completionRate: "88%" },
       { course: "UX/UI Design Principles", grade: "B", completionRate: "79%" },
       { course: "Computer Science Basics", grade: "A", completionRate: "93%" }
+    ],
+    projects: [
+      { 
+        id: "p1",
+        title: "E-Commerce Platform",
+        description: "Built a responsive e-commerce platform with React, Node.js, and MongoDB.",
+        technologies: ["React", "Node.js", "Express", "MongoDB"],
+        link: "https://github.com/username/ecommerce",
+        demoLink: "https://project-demo.com",
+        grade: "A"
+      },
+      { 
+        id: "p2",
+        title: "Data Visualization Dashboard",
+        description: "Created an interactive dashboard to visualize climate data using D3.js and React.",
+        technologies: ["React", "D3.js", "TypeScript", "CSS"],
+        link: "https://github.com/username/dashboard",
+        demoLink: "https://dashboard-demo.com",
+        grade: "A-"
+      },
+      { 
+        id: "p3",
+        title: "Social Media API",
+        description: "Developed a RESTful API for a social media application with user authentication.",
+        technologies: ["Node.js", "Express", "MongoDB", "JWT"],
+        link: "https://github.com/username/social-api",
+        grade: "B+"
+      }
+    ],
+    skills: [
+      { name: "JavaScript", level: 95 },
+      { name: "React", level: 88 },
+      { name: "Node.js", level: 82 },
+      { name: "TypeScript", level: 78 },
+      { name: "HTML/CSS", level: 90 },
+      { name: "MongoDB", level: 75 },
+      { name: "SQL", level: 65 },
+      { name: "Git", level: 85 },
+      { name: "Python", level: 60 },
+      { name: "UI/UX Design", level: 70 },
+      { name: "Testing", level: 55 },
+      { name: "GraphQL", level: 45 }
     ]
   };
 
@@ -96,6 +144,94 @@ const Report = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Skills Heat Map */}
+      <Card className="border border-muted/20 mb-8">
+        <CardHeader className="pb-2">
+          <div className="flex items-center space-x-2">
+            <ChartBar className="h-5 w-5 text-primary" />
+            <CardTitle className="text-xl">Skills Proficiency</CardTitle>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            {performanceData.skills.map((skill) => (
+              <div key={skill.name} className="flex flex-col">
+                <div className="flex justify-between text-sm mb-1">
+                  <span>{skill.name}</span>
+                  <span className="font-medium">{skill.level}%</span>
+                </div>
+                <div className="w-full bg-muted/30 rounded-full h-2.5">
+                  <div 
+                    className="h-2.5 rounded-full" 
+                    style={{ 
+                      width: `${skill.level}%`,
+                      background: `${
+                        skill.level >= 90 ? '#8B5CF6' : 
+                        skill.level >= 80 ? '#D946EF' : 
+                        skill.level >= 70 ? '#0EA5E9' : 
+                        skill.level >= 60 ? '#2DD4BF' : 
+                        skill.level >= 50 ? '#10B981' : 
+                        skill.level >= 40 ? '#F97316' : '#F43F5E'
+                      }`
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Projects */}
+      <Card className="border border-muted/20 mb-8">
+        <CardHeader className="pb-2">
+          <div className="flex items-center space-x-2">
+            <Briefcase className="h-5 w-5 text-primary" />
+            <CardTitle className="text-xl">Projects</CardTitle>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-4">
+            {performanceData.projects.map((project) => (
+              <div key={project.id} className="bg-muted/10 p-4 rounded-lg border border-border/20">
+                <div className="flex justify-between items-start">
+                  <h3 className="font-medium text-lg">{project.title}</h3>
+                  <span className={`px-2 py-0.5 text-xs rounded-full font-medium ${
+                    project.grade.startsWith('A') 
+                    ? 'bg-green-100 text-green-800' 
+                    : project.grade.startsWith('B') 
+                      ? 'bg-blue-100 text-blue-800' 
+                      : 'bg-amber-100 text-amber-800'
+                  }`}>
+                    Grade: {project.grade}
+                  </span>
+                </div>
+                <p className="text-muted-foreground mt-1 mb-3">{project.description}</p>
+                <div className="flex flex-wrap gap-1.5 mb-3">
+                  {project.technologies.map((tech, index) => (
+                    <span key={index} className="bg-primary/10 text-primary px-2 py-0.5 rounded text-xs">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+                <div className="flex gap-2 mt-2">
+                  <Button variant="outline" size="sm" className="h-8">
+                    <Github className="w-3.5 h-3.5 mr-1.5" />
+                    <span className="text-xs">Repository</span>
+                  </Button>
+                  {project.demoLink && (
+                    <Button variant="outline" size="sm" className="h-8">
+                      <ExternalLink className="w-3.5 h-3.5 mr-1.5" />
+                      <span className="text-xs">Live Demo</span>
+                    </Button>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
 
       <Card className="border border-muted/20 mb-8">
         <CardHeader className="pb-2">
