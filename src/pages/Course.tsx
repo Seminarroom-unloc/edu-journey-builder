@@ -30,20 +30,14 @@ const Course = () => {
   
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
-      <div className="bg-white dark:bg-slate-800 border-b shadow-sm py-6">
-        <div className="container mx-auto px-4 max-w-7xl">
-          <Link to="/" className="flex items-center text-sm mb-4 hover:underline">
-            <ArrowLeft className="h-4 w-4 mr-1" />
-            Back to Courses
-          </Link>
-          <h1 className="text-2xl font-bold">{COURSE.title}</h1>
-          <p className="text-muted-foreground mt-1">{COURSE.description}</p>
-        </div>
-      </div>
-      
       <CourseHeader course={COURSE} />
       
       <div className="container mx-auto px-4 py-6 max-w-7xl">
+        <Link to="/" className="flex items-center text-sm mb-4 hover:underline">
+          <ArrowLeft className="h-4 w-4 mr-1" />
+          Back to Courses
+        </Link>
+        
         <h2 className="text-2xl font-bold mb-6">Course Modules</h2>
         
         <Accordion type="single" collapsible className="w-full mb-8">

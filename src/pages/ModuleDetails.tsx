@@ -73,18 +73,15 @@ const ModuleDetails = () => {
   
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
-      <div className="bg-white dark:bg-slate-800 border-b shadow-sm py-6">
-        <div className="container mx-auto px-4 max-w-7xl">
-          <Link to={`/course/${courseId}`} className="flex items-center text-sm mb-4 hover:underline">
-            <ArrowLeft className="h-4 w-4 mr-1" />
-            Back to Course
-          </Link>
-          <h1 className="text-2xl font-bold">{module.title}</h1>
-          <p className="text-muted-foreground mt-1">{module.description}</p>
-        </div>
-      </div>
-      
       <div className="container mx-auto px-4 py-6 max-w-7xl">
+        <Link to={`/course/${courseId}`} className="flex items-center text-sm mb-4 hover:underline">
+          <ArrowLeft className="h-4 w-4 mr-1" />
+          Back to Course
+        </Link>
+        
+        <h1 className="text-2xl font-bold">{module.title}</h1>
+        <p className="text-muted-foreground mt-1 mb-6">{module.description}</p>
+        
         <Tabs defaultValue="reading-materials" value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full md:w-fit grid-cols-4 md:grid-cols-4 mb-8 mx-auto">
             <TabsTrigger value="reading-materials">Reading Materials</TabsTrigger>
