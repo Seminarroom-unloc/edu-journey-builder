@@ -1,6 +1,6 @@
 
 import { useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import CourseHeader from '@/components/course/CourseHeader';
 import { COURSE } from '@/data/courseData';
 import { 
@@ -10,7 +10,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from '@/components/ui/button';
-import { Clock, BookOpen, Video, FileText, HelpCircle } from 'lucide-react';
+import { Clock, Video, FileText, HelpCircle, ArrowLeft } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
 const Course = () => {
@@ -30,6 +30,17 @@ const Course = () => {
   
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
+      <div className="bg-white dark:bg-slate-800 border-b shadow-sm py-6">
+        <div className="container mx-auto px-4 max-w-7xl">
+          <Link to="/" className="flex items-center text-sm mb-4 hover:underline">
+            <ArrowLeft className="h-4 w-4 mr-1" />
+            Back to Courses
+          </Link>
+          <h1 className="text-2xl font-bold">{COURSE.title}</h1>
+          <p className="text-muted-foreground mt-1">{COURSE.description}</p>
+        </div>
+      </div>
+      
       <CourseHeader course={COURSE} />
       
       <div className="container mx-auto px-4 py-6 max-w-7xl">
