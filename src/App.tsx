@@ -12,6 +12,7 @@ import ReadingMaterials from "./pages/ReadingMaterials";
 import Quizzes from "./pages/Quizzes";
 import Discussions from "./pages/Discussions";
 import Course from "./pages/Course";
+import ModuleDetails from "./pages/ModuleDetails";
 import Explore from "./pages/Explore";
 import Profile from "./pages/Profile";
 import ProfileDetails from "./pages/ProfileDetails";
@@ -36,6 +37,7 @@ const App = () => (
             <Route path="/quizzes" element={<Quizzes />} />
             <Route path="/discussions" element={<Discussions />} />
             <Route path="/course/:id" element={<Course />} />
+            <Route path="/module/:courseId/:moduleId" element={<ModuleDetails />} />
             <Route path="/new-discussion/:courseId" element={<NewDiscussion />} />
             <Route path="/explore" element={<Explore />} />
             <Route path="/profile" element={<Profile />} />
