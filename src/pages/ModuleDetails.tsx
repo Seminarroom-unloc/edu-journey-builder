@@ -5,13 +5,16 @@ import { COURSE } from '@/data/courseData';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
 import { 
   BookOpen, 
   FileText, 
   HelpCircle, 
   ArrowLeft,
   Video,
-  Clock
+  Clock,
+  ListOrdered,
+  CheckCircle
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -19,14 +22,22 @@ const ModuleDetails = () => {
   const { courseId, moduleId } = useParams();
   const [activeTab, setActiveTab] = useState('reading-materials');
   const [module, setModule] = useState<any>(null);
+  const [moduleIndex, setModuleIndex] = useState(0);
+  const [progress, setProgress] = useState(0);
   
   useEffect(() => {
     window.scrollTo(0, 0);
     
     // Find the module from the course data
     if (COURSE.id === courseId) {
-      const foundModule = COURSE.modules.find(m => m.id === moduleId);
+      const index = COURSE.modules.findIndex(m => m.id === moduleId);
+      const foundModule = COURSE.modules[index];
       setModule(foundModule);
+      setModuleIndex(index);
+      
+      // Simulating progress - in a real app, this would come from user data
+      // For now, we're using a random value between 0 and 100
+      setProgress(Math.floor(Math.random() * 100));
     }
   }, [courseId, moduleId]);
   
@@ -71,6 +82,13 @@ const ModuleDetails = () => {
     }
   ];
   
+  const getProgressStatus = () => {
+    if (progress === 0) return "Not Started";
+    if (progress < 50) return "In Progress";
+    if (progress < 100) return "Almost Complete";
+    return "Completed";
+  };
+  
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
       <div className="container mx-auto px-4 py-6 max-w-7xl">
@@ -79,8 +97,41 @@ const ModuleDetails = () => {
           Back to Course
         </Link>
         
-        <h1 className="text-2xl font-bold">{module.title}</h1>
-        <p className="text-muted-foreground mt-1 mb-6">{module.description}</p>
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+          <div>
+            <div className="flex items-center mb-2">
+              <Badge variant="outline" className="mr-3 bg-primary/10">
+                <ListOrdered className="h-3.5 w-3.5 mr-1" />
+                Module {moduleIndex + 1}
+              </Badge>
+            </div>
+            <h1 className="text-2xl font-bold">{module.title}</h1>
+            <p className="text-muted-foreground mt-1">{module.description}</p>
+          </div>
+        </div>
+        
+        <Card className="mb-6">
+          <CardContent className="p-6">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
+              <div className="flex items-center mb-2 md:mb-0">
+                <h3 className="font-medium mr-2">Module Progress:</h3>
+                <Badge className={progress === 100 ? "bg-green-500" : "bg-blue-500"}>
+                  {getProgressStatus()}
+                </Badge>
+              </div>
+              <div className="flex items-center">
+                {progress === 100 && (
+                  <div className="flex items-center text-green-500 mr-2">
+                    <CheckCircle className="h-4 w-4 mr-1" />
+                    <span className="text-sm font-medium">Complete</span>
+                  </div>
+                )}
+                <span className="text-sm font-medium">{progress}%</span>
+              </div>
+            </div>
+            <Progress value={progress} className="h-2" />
+          </CardContent>
+        </Card>
         
         <Tabs defaultValue="reading-materials" value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full md:w-fit grid-cols-4 md:grid-cols-4 mb-8 mx-auto">

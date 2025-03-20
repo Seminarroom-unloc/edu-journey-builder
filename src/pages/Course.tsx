@@ -10,7 +10,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from '@/components/ui/button';
-import { Clock, Video, FileText, HelpCircle, ArrowLeft } from 'lucide-react';
+import { Clock, Video, FileText, HelpCircle, ArrowLeft, ListOrdered } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
 const Course = () => {
@@ -41,12 +41,18 @@ const Course = () => {
         <h2 className="text-2xl font-bold mb-6">Course Modules</h2>
         
         <Accordion type="single" collapsible className="w-full mb-8">
-          {COURSE.modules.map((module) => (
+          {COURSE.modules.map((module, index) => (
             <AccordionItem key={module.id} value={module.id}>
               <AccordionTrigger className="hover:bg-slate-100 dark:hover:bg-slate-800 px-4 rounded-md">
-                <div className="flex flex-col items-start">
-                  <h3 className="text-lg font-medium">{module.title}</h3>
-                  <p className="text-sm text-muted-foreground text-left">{module.description}</p>
+                <div className="flex flex-col items-start w-full">
+                  <div className="flex items-center w-full">
+                    <Badge variant="outline" className="mr-3 bg-primary/10">
+                      <ListOrdered className="h-3.5 w-3.5 mr-1" />
+                      Module {index + 1}
+                    </Badge>
+                    <h3 className="text-lg font-medium">{module.title}</h3>
+                  </div>
+                  <p className="text-sm text-muted-foreground text-left mt-1">{module.description}</p>
                 </div>
               </AccordionTrigger>
               <AccordionContent className="px-4 pt-2">
