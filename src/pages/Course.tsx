@@ -27,12 +27,12 @@ const Course = () => {
       <CourseHeader course={COURSE} />
       
       <div className="container mx-auto px-4 py-6 max-w-7xl">
-        <Link to="/" className="flex items-center text-sm mb-4 hover:underline text-purple-600">
+        <Link to="/" className="flex items-center text-sm mb-4 hover:underline text-purple-500">
           <ArrowLeft className="h-4 w-4 mr-1" />
           Back to Courses
         </Link>
         
-        <h2 className="text-2xl font-bold mb-6 text-purple-800">Course Modules</h2>
+        <h2 className="text-2xl font-bold mb-6 text-gray-800">Course Modules</h2>
         
         <div className="space-y-4">
           {COURSE.modules.map((module, index) => (
@@ -44,21 +44,21 @@ const Course = () => {
                 <div className="flex flex-col items-start w-full">
                   <div className="flex items-center w-full justify-between">
                     <div className="flex items-center">
-                      <Badge variant="outline" className="mr-3 bg-purple-100 text-purple-800 border-purple-300">
+                      <Badge variant="outline" className="mr-3 bg-purple-50 text-purple-700 border-purple-100">
                         <ListOrdered className="h-3.5 w-3.5 mr-1" />
                         Module {index + 1}
                       </Badge>
-                      <h3 className="text-lg font-medium text-gray-900">{module.title}</h3>
+                      <h3 className="text-lg font-medium text-gray-800">{module.title}</h3>
                     </div>
                     <Button 
                       onClick={() => handleModuleClick(module.id)}
                       size="sm"
-                      className="bg-purple-600 hover:bg-purple-700 text-white"
+                      className="bg-purple-400 hover:bg-purple-500 text-white"
                     >
                       Go to Module Materials
                     </Button>
                   </div>
-                  <p className="text-sm text-muted-foreground text-left mt-2">{module.description}</p>
+                  <p className="text-sm text-gray-500 text-left mt-2">{module.description}</p>
                 </div>
               </div>
             </div>

@@ -47,13 +47,13 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
   
   return (
     <div className="pt-16 bg-white text-gray-800">
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="container mx-auto px-4 py-6 max-w-7xl">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
-            <h1 className="text-3xl font-bold mb-4 text-purple-800">{course.title}</h1>
+            <h1 className="text-3xl font-bold mb-4 text-gray-800">{course.title}</h1>
             <p className="text-gray-600 mb-4">{course.description}</p>
             
-            <div className="flex flex-wrap items-center gap-4 mb-6">
+            <div className="flex flex-wrap items-center gap-4 mb-4">
               <div className="flex items-center">
                 <Star className="h-5 w-5 text-yellow-500 mr-1.5" />
                 <span className="font-medium">{course.rating}</span>
@@ -63,12 +63,12 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
                 <span>{course.duration}</span>
               </div>
               <div className="flex items-center">
-                <Badge variant="outline" className="font-normal bg-purple-100 text-purple-800 border-purple-200">{course.level}</Badge>
+                <Badge variant="outline" className="font-normal bg-purple-50 text-purple-700 border-purple-100">{course.level}</Badge>
               </div>
             </div>
             
-            <div className="flex items-center gap-3 mb-6">
-              <Avatar className="h-10 w-10 border-2 border-purple-200">
+            <div className="flex items-center gap-3 mb-4">
+              <Avatar className="h-10 w-10 border-2 border-purple-100">
                 <AvatarImage src={course.instructor.avatar} />
                 <AvatarFallback>{course.instructor.name.charAt(0)}</AvatarFallback>
               </Avatar>
@@ -78,26 +78,26 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
               </div>
             </div>
             
-            {/* Calendar Section - More compact */}
-            <div className="mt-4 bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
-              <h2 className="text-lg font-bold mb-3 text-purple-800">Course Schedule</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Calendar Section - Compact */}
+            <div className="mt-2 bg-white rounded-lg p-3 border border-gray-200 shadow-sm">
+              <h2 className="text-lg font-medium mb-2 text-gray-800">Course Schedule</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
                   <Calendar
                     mode="single"
                     selected={date}
                     onSelect={setDate}
-                    className="bg-white rounded-lg border border-gray-200 p-0"
+                    className="bg-white rounded-lg border border-gray-100 p-0"
                     modifiers={{
                       taskDay: (day) => isDayWithTask(day),
                     }}
                     modifiersClassNames={{
-                      taskDay: "bg-purple-500 text-white font-bold hover:bg-purple-600",
+                      taskDay: "bg-purple-200 text-purple-800 font-semibold hover:bg-purple-300",
                     }}
                     showOutsideDays={false}
                   />
-                  <div className="mt-2 text-xs flex items-center">
-                    <div className="w-3 h-3 rounded-full bg-purple-500 mr-2"></div>
+                  <div className="mt-1 text-xs flex items-center">
+                    <div className="w-3 h-3 rounded-full bg-purple-200 mr-2"></div>
                     <span className="text-gray-600">Important deadline</span>
                   </div>
                 </div>
@@ -108,10 +108,10 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
                   {selectedDateTasks.length > 0 ? (
                     <div className="space-y-2">
                       {selectedDateTasks.map((task, index) => (
-                        <div key={index} className="p-2 bg-gray-50 rounded-lg border border-gray-200">
+                        <div key={index} className="p-2 bg-gray-50 rounded-lg border border-gray-100">
                           <div className="font-medium text-gray-800">{task.title}</div>
                           <div className="text-xs text-gray-600 mt-1">
-                            <Badge variant="outline" className="bg-purple-100 text-purple-800 border-purple-200">
+                            <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-100">
                               {task.type.charAt(0).toUpperCase() + task.type.slice(1)}
                             </Badge>
                           </div>
@@ -119,7 +119,7 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
                       ))}
                     </div>
                   ) : (
-                    <div className="p-2 bg-gray-50 rounded-lg border border-gray-200">
+                    <div className="p-2 bg-gray-50 rounded-lg border border-gray-100">
                       <p className="text-gray-500 text-sm">No tasks scheduled for this date.</p>
                     </div>
                   )}
@@ -129,7 +129,7 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
           </div>
           
           <div className="lg:col-span-1">
-            <Card className="overflow-hidden shadow-md bg-white border-gray-200">
+            <Card className="overflow-hidden shadow-sm bg-white border-gray-200 h-full flex flex-col">
               <div className="aspect-video w-full">
                 <img 
                   src={course.imgSrc} 
@@ -137,7 +137,7 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
                   className="w-full h-full object-cover" 
                 />
               </div>
-              <CardContent className="p-4">
+              <CardContent className="p-4 flex-grow flex flex-col justify-between">
                 <div className="space-y-3">
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-500">Total hours</span>
@@ -153,7 +153,7 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
                   </div>
                 </div>
                 
-                <div className="mt-4">
+                <div className="mt-auto pt-4">
                   <Button className="w-full bg-green-600 hover:bg-green-700">
                     Enrolled
                   </Button>
