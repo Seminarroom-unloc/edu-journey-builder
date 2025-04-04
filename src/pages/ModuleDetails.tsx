@@ -89,33 +89,43 @@ const ModuleDetails = () => {
     return "Completed";
   };
   
+  const getProgressColor = () => {
+    if (progress === 100) return "bg-green-500";
+    if (progress > 60) return "bg-purple-500";
+    return "bg-pink-500";
+  };
+  
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
-      <div className="container mx-auto px-4 py-6 max-w-7xl">
-        <Link to={`/course/${courseId}`} className="flex items-center text-sm mb-4 hover:underline">
-          <ArrowLeft className="h-4 w-4 mr-1" />
-          Back to Course
-        </Link>
-        
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
-          <div>
-            <div className="flex items-center mb-2">
-              <Badge variant="outline" className="mr-3 bg-primary/10">
-                <ListOrdered className="h-3.5 w-3.5 mr-1" />
-                Module {moduleIndex + 1}
-              </Badge>
+    <div className="min-h-screen bg-gradient-to-b from-purple-900/20 to-pink-900/10 dark:bg-slate-900">
+      <div className="pt-20 bg-gradient-to-r from-purple-700 to-pink-600 text-white">
+        <div className="container mx-auto px-4 py-8 max-w-7xl">
+          <Link to={`/course/${courseId}`} className="flex items-center text-sm mb-4 hover:underline text-white/80">
+            <ArrowLeft className="h-4 w-4 mr-1" />
+            Back to Course
+          </Link>
+          
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+            <div>
+              <div className="flex items-center mb-2">
+                <Badge variant="outline" className="mr-3 bg-white/10 text-white border-white/20">
+                  <ListOrdered className="h-3.5 w-3.5 mr-1" />
+                  Module {moduleIndex + 1}
+                </Badge>
+              </div>
+              <h1 className="text-2xl font-bold">{module.title}</h1>
+              <p className="text-white/80 mt-1">{module.description}</p>
             </div>
-            <h1 className="text-2xl font-bold">{module.title}</h1>
-            <p className="text-muted-foreground mt-1">{module.description}</p>
           </div>
         </div>
-        
-        <Card className="mb-6">
+      </div>
+      
+      <div className="container mx-auto px-4 py-6 max-w-7xl">
+        <Card className="mb-6 bg-white/80 dark:bg-slate-800/50 border-purple-200 dark:border-purple-800/30">
           <CardContent className="p-6">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
               <div className="flex items-center mb-2 md:mb-0">
                 <h3 className="font-medium mr-2">Module Progress:</h3>
-                <Badge className={progress === 100 ? "bg-green-500" : "bg-blue-500"}>
+                <Badge className={`${progress === 100 ? "bg-green-500" : "bg-purple-500"} text-white`}>
                   {getProgressStatus()}
                 </Badge>
               </div>
@@ -129,32 +139,32 @@ const ModuleDetails = () => {
                 <span className="text-sm font-medium">{progress}%</span>
               </div>
             </div>
-            <Progress value={progress} className="h-2" />
+            <Progress value={progress} className={`h-2 ${getProgressColor()}`} />
           </CardContent>
         </Card>
         
         <Tabs defaultValue="reading-materials" value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full md:w-fit grid-cols-4 md:grid-cols-4 mb-8 mx-auto">
-            <TabsTrigger value="reading-materials">Reading Materials</TabsTrigger>
-            <TabsTrigger value="videos">Video Lectures</TabsTrigger>
-            <TabsTrigger value="assignments">Assignments</TabsTrigger>
-            <TabsTrigger value="quiz">Quiz</TabsTrigger>
+          <TabsList className="grid w-full md:w-fit grid-cols-4 md:grid-cols-4 mb-8 mx-auto bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300">
+            <TabsTrigger value="reading-materials" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white">Reading Materials</TabsTrigger>
+            <TabsTrigger value="videos" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white">Video Lectures</TabsTrigger>
+            <TabsTrigger value="assignments" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white">Assignments</TabsTrigger>
+            <TabsTrigger value="quiz" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white">Quiz</TabsTrigger>
           </TabsList>
           
           <TabsContent value="reading-materials">
-            <h2 className="text-xl font-semibold mb-4">Reading Materials</h2>
+            <h2 className="text-xl font-semibold mb-4 text-purple-800 dark:text-purple-300">Reading Materials</h2>
             <div className="grid gap-4 md:grid-cols-2">
               {readingMaterials.map((material) => (
-                <Card key={material.id}>
+                <Card key={material.id} className="bg-white/80 dark:bg-slate-800/50 border-purple-200 dark:border-purple-800/30 hover:shadow-md transition-shadow">
                   <CardHeader className="pb-2">
                     <div className="flex justify-between items-start">
                       <CardTitle className="text-lg">{material.title}</CardTitle>
-                      <Badge variant="outline">{material.type.toUpperCase()}</Badge>
+                      <Badge variant="outline" className="bg-purple-100 dark:bg-purple-900/40 text-purple-800 dark:text-purple-300">{material.type.toUpperCase()}</Badge>
                     </div>
                   </CardHeader>
                   <CardContent>
                     <p className="text-sm text-muted-foreground mb-3">Size: {material.size}</p>
-                    <Button className="w-full">Download</Button>
+                    <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">Download</Button>
                   </CardContent>
                 </Card>
               ))}
@@ -162,19 +172,19 @@ const ModuleDetails = () => {
           </TabsContent>
           
           <TabsContent value="videos">
-            <h2 className="text-xl font-semibold mb-4">Video Lectures</h2>
+            <h2 className="text-xl font-semibold mb-4 text-purple-800 dark:text-purple-300">Video Lectures</h2>
             <div className="grid gap-4 md:grid-cols-2">
               {videoLinks.map((video) => (
-                <Card key={video.id}>
+                <Card key={video.id} className="bg-white/80 dark:bg-slate-800/50 border-purple-200 dark:border-purple-800/30 hover:shadow-md transition-shadow">
                   <CardHeader className="pb-2">
                     <CardTitle className="text-lg">{video.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="flex items-center text-sm text-muted-foreground mb-3">
-                      <Clock className="w-3.5 h-3.5 mr-1.5" />
+                      <Clock className="w-3.5 h-3.5 mr-1.5 text-purple-600 dark:text-purple-400" />
                       <span>{video.duration}</span>
                     </div>
-                    <Button className="w-full">Watch Video</Button>
+                    <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">Watch Video</Button>
                   </CardContent>
                 </Card>
               ))}
@@ -182,13 +192,13 @@ const ModuleDetails = () => {
           </TabsContent>
           
           <TabsContent value="assignments">
-            <h2 className="text-xl font-semibold mb-4">Assignments</h2>
+            <h2 className="text-xl font-semibold mb-4 text-purple-800 dark:text-purple-300">Assignments</h2>
             <div className="grid gap-4 md:grid-cols-2">
               {assignments.map((assignment) => (
-                <Card key={assignment.id}>
+                <Card key={assignment.id} className="bg-white/80 dark:bg-slate-800/50 border-purple-200 dark:border-purple-800/30 hover:shadow-md transition-shadow">
                   <CardHeader className="pb-2">
                     <div className="flex justify-between items-start mb-1">
-                      <Badge variant="outline">
+                      <Badge variant="outline" className="bg-purple-100 dark:bg-purple-900/40 text-purple-800 dark:text-purple-300">
                         {assignment.status === 'completed'
                           ? 'Completed'
                           : assignment.status === 'in-progress'
@@ -202,14 +212,20 @@ const ModuleDetails = () => {
                     <div className="grid grid-cols-2 gap-2 mb-4">
                       <div className="text-sm">
                         <div className="text-muted-foreground mb-1">Due Date</div>
-                        <div>{assignment.dueDate}</div>
+                        <div className="flex items-center">
+                          <Calendar className="w-3.5 h-3.5 mr-1.5 text-purple-600 dark:text-purple-400" />
+                          {assignment.dueDate}
+                        </div>
                       </div>
                       <div className="text-sm">
                         <div className="text-muted-foreground mb-1">Est. Time</div>
-                        <div>{assignment.estimatedTime}</div>
+                        <div className="flex items-center">
+                          <Clock className="w-3.5 h-3.5 mr-1.5 text-purple-600 dark:text-purple-400" />
+                          {assignment.estimatedTime}
+                        </div>
                       </div>
                     </div>
-                    <Button className="w-full">Start Assignment</Button>
+                    <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">Start Assignment</Button>
                   </CardContent>
                 </Card>
               ))}
@@ -217,13 +233,13 @@ const ModuleDetails = () => {
           </TabsContent>
           
           <TabsContent value="quiz">
-            <h2 className="text-xl font-semibold mb-4">Quiz</h2>
+            <h2 className="text-xl font-semibold mb-4 text-purple-800 dark:text-purple-300">Quiz</h2>
             <div className="grid gap-4 md:grid-cols-2">
               {quizzes.map((quiz) => (
-                <Card key={quiz.id}>
+                <Card key={quiz.id} className="bg-white/80 dark:bg-slate-800/50 border-purple-200 dark:border-purple-800/30 hover:shadow-md transition-shadow">
                   <CardHeader className="pb-2">
                     <div className="flex justify-between items-start mb-1">
-                      <Badge variant="outline">
+                      <Badge variant="outline" className="bg-purple-100 dark:bg-purple-900/40 text-purple-800 dark:text-purple-300">
                         {quiz.status === 'completed'
                           ? 'Completed'
                           : quiz.status === 'in-progress'
@@ -237,18 +253,27 @@ const ModuleDetails = () => {
                     <div className="grid grid-cols-2 gap-2 mb-4">
                       <div className="text-sm">
                         <div className="text-muted-foreground mb-1">Questions</div>
-                        <div>{quiz.questions}</div>
+                        <div className="flex items-center">
+                          <HelpCircle className="w-3.5 h-3.5 mr-1.5 text-purple-600 dark:text-purple-400" />
+                          {quiz.questions}
+                        </div>
                       </div>
                       <div className="text-sm">
                         <div className="text-muted-foreground mb-1">Time Limit</div>
-                        <div>{quiz.timeLimit}</div>
+                        <div className="flex items-center">
+                          <Clock className="w-3.5 h-3.5 mr-1.5 text-purple-600 dark:text-purple-400" />
+                          {quiz.timeLimit}
+                        </div>
                       </div>
                       <div className="text-sm col-span-2">
                         <div className="text-muted-foreground mb-1">Available Until</div>
-                        <div>{quiz.availableUntil}</div>
+                        <div className="flex items-center">
+                          <Calendar className="w-3.5 h-3.5 mr-1.5 text-purple-600 dark:text-purple-400" />
+                          {quiz.availableUntil}
+                        </div>
                       </div>
                     </div>
-                    <Button className="w-full">Start Quiz</Button>
+                    <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">Start Quiz</Button>
                   </CardContent>
                 </Card>
               ))}

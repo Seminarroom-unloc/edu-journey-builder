@@ -3,6 +3,7 @@ import { Calendar, Clock, User, FileCheck } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 
 interface AssignmentsTabProps {
   courseId: string;
@@ -48,13 +49,19 @@ const ASSIGNMENTS = [
 ];
 
 const AssignmentsTab = ({ courseId }: AssignmentsTabProps) => {
+  const navigate = useNavigate();
+  
+  const handleAssignmentClick = (assignmentId: string) => {
+    navigate(`/assignment/${courseId}/${assignmentId}`);
+  };
+  
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-bold mb-4">Assignments</h2>
       
       <div className="grid gap-4 sm:grid-cols-2">
         {ASSIGNMENTS.map((assignment) => (
-          <Card key={assignment.id} className="overflow-hidden">
+          <Card key={assignment.id} className="overflow-hidden bg-white/80 dark:bg-slate-800/50 border-purple-200 dark:border-purple-800/30 hover:shadow-md transition-shadow">
             <CardHeader className="pb-2">
               <div className="flex justify-between items-start mb-1">
                 <Badge
@@ -64,6 +71,13 @@ const AssignmentsTab = ({ courseId }: AssignmentsTabProps) => {
                       : assignment.status === 'pending'
                       ? 'secondary'
                       : 'outline'
+                  }
+                  className={
+                    assignment.status === 'completed'
+                      ? 'bg-green-500'
+                      : assignment.status === 'pending'
+                      ? 'bg-purple-500 text-white'
+                      : 'bg-purple-100 dark:bg-purple-900/40 text-purple-800 dark:text-purple-300'
                   }
                 >
                   {assignment.status === 'completed'
@@ -86,27 +100,31 @@ const AssignmentsTab = ({ courseId }: AssignmentsTabProps) => {
                 <div className="text-sm">
                   <div className="text-muted-foreground mb-1">Due Date</div>
                   <div className="flex items-center">
-                    <Calendar className="w-3.5 h-3.5 mr-1.5" />
+                    <Calendar className="w-3.5 h-3.5 mr-1.5 text-purple-600 dark:text-purple-400" />
                     {assignment.dueDate}
                   </div>
                 </div>
                 <div className="text-sm">
                   <div className="text-muted-foreground mb-1">Assigned</div>
                   <div className="flex items-center">
-                    <Calendar className="w-3.5 h-3.5 mr-1.5" />
+                    <Calendar className="w-3.5 h-3.5 mr-1.5 text-purple-600 dark:text-purple-400" />
                     {assignment.assignedDate}
                   </div>
                 </div>
                 <div className="text-sm col-span-2">
                   <div className="text-muted-foreground mb-1">Estimated Time</div>
                   <div className="flex items-center">
-                    <Clock className="w-3.5 h-3.5 mr-1.5" />
+                    <Clock className="w-3.5 h-3.5 mr-1.5 text-purple-600 dark:text-purple-400" />
                     {assignment.estimatedTime}
                   </div>
                 </div>
               </div>
               
-              <Button className="w-full" variant={assignment.status === 'completed' ? 'outline' : 'default'}>
+              <Button 
+                className="w-full bg-purple-600 hover:bg-purple-700 text-white" 
+                variant={assignment.status === 'completed' ? 'outline' : 'default'}
+                onClick={() => handleAssignmentClick(assignment.id)}
+              >
                 {assignment.status === 'completed' ? 'View Submission' : 'Start Assignment'}
               </Button>
             </CardContent>
