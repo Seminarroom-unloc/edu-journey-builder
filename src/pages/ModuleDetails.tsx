@@ -15,7 +15,7 @@ import {
   Clock,
   ListOrdered,
   CheckCircle,
-  Calendar
+  Calendar as CalendarIcon
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -102,7 +102,7 @@ const ModuleDetails = () => {
   };
   
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
+    <div className="min-h-screen bg-white">
       <div className="pt-20 bg-purple-700 text-white">
         <div className="container mx-auto px-4 py-8 max-w-7xl">
           <Link to={`/course/${courseId}`} className="flex items-center text-sm mb-4 hover:underline text-white/80">
@@ -126,12 +126,12 @@ const ModuleDetails = () => {
       </div>
       
       <div className="container mx-auto px-4 py-6 max-w-7xl">
-        <Card className="mb-6 bg-white dark:bg-slate-800 border-gray-200 dark:border-gray-700">
+        <Card className="mb-6 bg-white border-purple-100 shadow-md">
           <CardContent className="p-6">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
               <div className="flex items-center mb-2 md:mb-0">
                 <h3 className="font-medium mr-2">Module Progress:</h3>
-                <Badge className={`${progress === 100 ? "bg-green-500" : "bg-purple-500"} text-white`}>
+                <Badge className={`${progress === 100 ? "bg-green-500" : "bg-purple-600"} text-white`}>
                   {getProgressStatus()}
                 </Badge>
               </div>
@@ -150,7 +150,7 @@ const ModuleDetails = () => {
         </Card>
         
         <Tabs defaultValue="reading-materials" value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full md:w-fit grid-cols-4 md:grid-cols-4 mb-8 mx-auto bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300">
+          <TabsList className="grid w-full md:w-fit grid-cols-4 md:grid-cols-4 mb-8 mx-auto bg-purple-100 text-purple-800">
             <TabsTrigger value="reading-materials" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white">Reading Materials</TabsTrigger>
             <TabsTrigger value="videos" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white">Video Lectures</TabsTrigger>
             <TabsTrigger value="assignments" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white">Assignments</TabsTrigger>
@@ -158,14 +158,14 @@ const ModuleDetails = () => {
           </TabsList>
           
           <TabsContent value="reading-materials">
-            <h2 className="text-xl font-semibold mb-4 text-purple-800 dark:text-purple-300">Reading Materials</h2>
+            <h2 className="text-xl font-semibold mb-4 text-purple-800">Reading Materials</h2>
             <div className="grid gap-4 md:grid-cols-2">
               {readingMaterials.map((material) => (
-                <Card key={material.id} className="bg-white dark:bg-slate-800 border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow">
+                <Card key={material.id} className="bg-white border-purple-100 hover:shadow-md transition-shadow">
                   <CardHeader className="pb-2">
                     <div className="flex justify-between items-start">
                       <CardTitle className="text-lg">{material.title}</CardTitle>
-                      <Badge variant="outline" className="bg-purple-100 dark:bg-purple-900/40 text-purple-800 dark:text-purple-300">{material.type.toUpperCase()}</Badge>
+                      <Badge variant="outline" className="bg-purple-100 text-purple-800">{material.type.toUpperCase()}</Badge>
                     </div>
                   </CardHeader>
                   <CardContent>
@@ -178,16 +178,16 @@ const ModuleDetails = () => {
           </TabsContent>
           
           <TabsContent value="videos">
-            <h2 className="text-xl font-semibold mb-4 text-purple-800 dark:text-purple-300">Video Lectures</h2>
+            <h2 className="text-xl font-semibold mb-4 text-purple-800">Video Lectures</h2>
             <div className="grid gap-4 md:grid-cols-2">
               {videoLinks.map((video) => (
-                <Card key={video.id} className="bg-white dark:bg-slate-800 border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow">
+                <Card key={video.id} className="bg-white border-purple-100 hover:shadow-md transition-shadow">
                   <CardHeader className="pb-2">
                     <CardTitle className="text-lg">{video.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="flex items-center text-sm text-muted-foreground mb-3">
-                      <Clock className="w-3.5 h-3.5 mr-1.5 text-purple-600 dark:text-purple-400" />
+                      <Clock className="w-3.5 h-3.5 mr-1.5 text-purple-600" />
                       <span>{video.duration}</span>
                     </div>
                     <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">Watch Video</Button>
@@ -198,13 +198,13 @@ const ModuleDetails = () => {
           </TabsContent>
           
           <TabsContent value="assignments">
-            <h2 className="text-xl font-semibold mb-4 text-purple-800 dark:text-purple-300">Assignments</h2>
+            <h2 className="text-xl font-semibold mb-4 text-purple-800">Assignments</h2>
             <div className="grid gap-4 md:grid-cols-2">
               {assignments.map((assignment) => (
-                <Card key={assignment.id} className="bg-white dark:bg-slate-800 border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow">
+                <Card key={assignment.id} className="bg-white border-purple-100 hover:shadow-md transition-shadow">
                   <CardHeader className="pb-2">
                     <div className="flex justify-between items-start mb-1">
-                      <Badge variant="outline" className="bg-purple-100 dark:bg-purple-900/40 text-purple-800 dark:text-purple-300">
+                      <Badge variant="outline" className="bg-purple-100 text-purple-800">
                         {assignment.status === 'completed'
                           ? 'Completed'
                           : assignment.status === 'in-progress'
@@ -219,14 +219,14 @@ const ModuleDetails = () => {
                       <div className="text-sm">
                         <div className="text-muted-foreground mb-1">Due Date</div>
                         <div className="flex items-center">
-                          <Calendar className="w-3.5 h-3.5 mr-1.5 text-purple-600 dark:text-purple-400" />
+                          <CalendarIcon className="w-3.5 h-3.5 mr-1.5 text-purple-600" />
                           {assignment.dueDate}
                         </div>
                       </div>
                       <div className="text-sm">
                         <div className="text-muted-foreground mb-1">Est. Time</div>
                         <div className="flex items-center">
-                          <Clock className="w-3.5 h-3.5 mr-1.5 text-purple-600 dark:text-purple-400" />
+                          <Clock className="w-3.5 h-3.5 mr-1.5 text-purple-600" />
                           {assignment.estimatedTime}
                         </div>
                       </div>
@@ -244,13 +244,13 @@ const ModuleDetails = () => {
           </TabsContent>
           
           <TabsContent value="quiz">
-            <h2 className="text-xl font-semibold mb-4 text-purple-800 dark:text-purple-300">Quiz</h2>
+            <h2 className="text-xl font-semibold mb-4 text-purple-800">Quiz</h2>
             <div className="grid gap-4 md:grid-cols-2">
               {quizzes.map((quiz) => (
-                <Card key={quiz.id} className="bg-white dark:bg-slate-800 border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow">
+                <Card key={quiz.id} className="bg-white border-purple-100 hover:shadow-md transition-shadow">
                   <CardHeader className="pb-2">
                     <div className="flex justify-between items-start mb-1">
-                      <Badge variant="outline" className="bg-purple-100 dark:bg-purple-900/40 text-purple-800 dark:text-purple-300">
+                      <Badge variant="outline" className="bg-purple-100 text-purple-800">
                         {quiz.status === 'completed'
                           ? 'Completed'
                           : quiz.status === 'in-progress'
@@ -265,21 +265,21 @@ const ModuleDetails = () => {
                       <div className="text-sm">
                         <div className="text-muted-foreground mb-1">Questions</div>
                         <div className="flex items-center">
-                          <HelpCircle className="w-3.5 h-3.5 mr-1.5 text-purple-600 dark:text-purple-400" />
+                          <HelpCircle className="w-3.5 h-3.5 mr-1.5 text-purple-600" />
                           {quiz.questions}
                         </div>
                       </div>
                       <div className="text-sm">
                         <div className="text-muted-foreground mb-1">Time Limit</div>
                         <div className="flex items-center">
-                          <Clock className="w-3.5 h-3.5 mr-1.5 text-purple-600 dark:text-purple-400" />
+                          <Clock className="w-3.5 h-3.5 mr-1.5 text-purple-600" />
                           {quiz.timeLimit}
                         </div>
                       </div>
                       <div className="text-sm col-span-2">
                         <div className="text-muted-foreground mb-1">Available Until</div>
                         <div className="flex items-center">
-                          <Calendar className="w-3.5 h-3.5 mr-1.5 text-purple-600 dark:text-purple-400" />
+                          <CalendarIcon className="w-3.5 h-3.5 mr-1.5 text-purple-600" />
                           {quiz.availableUntil}
                         </div>
                       </div>

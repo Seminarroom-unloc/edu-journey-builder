@@ -77,6 +77,59 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
                 <div className="text-sm text-white/80">{course.instructor.role}</div>
               </div>
             </div>
+            
+            {/* Calendar Section - Moved here from below */}
+            <div className="mt-6 bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
+              <h2 className="text-xl font-bold mb-4">Course Schedule</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={setDate}
+                    className="bg-white/5 rounded-lg border border-white/20"
+                    modifiers={{
+                      taskDay: (day) => isDayWithTask(day),
+                    }}
+                    modifiersClassNames={{
+                      taskDay: "bg-purple-500 text-white font-bold hover:bg-purple-600",
+                    }}
+                  />
+                  <div className="mt-4 text-sm">
+                    <p className="mb-2">Course deadlines are highlighted</p>
+                    <ul className="space-y-1">
+                      <li className="flex items-center">
+                        <div className="w-3 h-3 rounded-full bg-purple-500 mr-2"></div>
+                        <span>Important date</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-lg font-medium mb-3">
+                    {date ? date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : 'Select a date'}
+                  </h3>
+                  {selectedDateTasks.length > 0 ? (
+                    <div className="space-y-3">
+                      {selectedDateTasks.map((task, index) => (
+                        <div key={index} className="p-3 bg-white/10 rounded-lg border border-white/20">
+                          <div className="font-medium">{task.title}</div>
+                          <div className="text-sm text-white/80 mt-1">
+                            <Badge variant="outline" className="bg-purple-500/20 text-white border-purple-400/30">
+                              {task.type.charAt(0).toUpperCase() + task.type.slice(1)}
+                            </Badge>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="p-3 bg-white/10 rounded-lg border border-white/20">
+                      <p className="text-white/80">No tasks scheduled for this date.</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
           
           <div className="lg:col-span-1">
@@ -111,59 +164,6 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
                 </div>
               </CardContent>
             </Card>
-          </div>
-        </div>
-        
-        {/* Calendar Section - Now moved above */}
-        <div className="mt-8 bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
-          <h2 className="text-xl font-bold mb-4">Course Schedule</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <Calendar
-                mode="single"
-                selected={date}
-                onSelect={setDate}
-                className="bg-white/5 rounded-lg border border-white/20"
-                modifiers={{
-                  taskDay: (day) => isDayWithTask(day),
-                }}
-                modifiersClassNames={{
-                  taskDay: "bg-purple-500 text-white font-bold hover:bg-purple-600",
-                }}
-              />
-              <div className="mt-4 text-sm">
-                <p className="mb-2">Highlighted dates show upcoming deadlines</p>
-                <ul className="space-y-1">
-                  <li className="flex items-center">
-                    <div className="w-3 h-3 rounded-full bg-purple-500 mr-2"></div>
-                    <span>Task or deadline</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div>
-              <h3 className="text-lg font-medium mb-3">
-                {date ? date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : 'Select a date'}
-              </h3>
-              {selectedDateTasks.length > 0 ? (
-                <div className="space-y-3">
-                  {selectedDateTasks.map((task, index) => (
-                    <div key={index} className="p-3 bg-white/10 rounded-lg border border-white/20">
-                      <div className="font-medium">{task.title}</div>
-                      <div className="text-sm text-white/80 mt-1">
-                        <Badge variant="outline" className="bg-purple-500/20 text-white border-purple-400/30">
-                          {task.type.charAt(0).toUpperCase() + task.type.slice(1)}
-                        </Badge>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="p-3 bg-white/10 rounded-lg border border-white/20">
-                  <p className="text-white/80">No tasks scheduled for this date.</p>
-                </div>
-              )}
-            </div>
           </div>
         </div>
       </div>
