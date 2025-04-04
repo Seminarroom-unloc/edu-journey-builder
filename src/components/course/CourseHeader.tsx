@@ -46,12 +46,12 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
   const selectedDateTasks = getTasksForDate(date);
   
   return (
-    <div className="pt-16 bg-purple-700 text-white">
+    <div className="pt-16 bg-white text-gray-800">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
-            <h1 className="text-3xl font-bold mb-4">{course.title}</h1>
-            <p className="text-white/80 mb-4">{course.description}</p>
+            <h1 className="text-3xl font-bold mb-4 text-purple-800">{course.title}</h1>
+            <p className="text-gray-600 mb-4">{course.description}</p>
             
             <div className="flex flex-wrap items-center gap-4 mb-6">
               <div className="flex items-center">
@@ -59,63 +59,59 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
                 <span className="font-medium">{course.rating}</span>
               </div>
               <div className="flex items-center">
-                <Clock className="h-5 w-5 text-white/80 mr-1.5" />
+                <Clock className="h-5 w-5 text-gray-500 mr-1.5" />
                 <span>{course.duration}</span>
               </div>
               <div className="flex items-center">
-                <Badge variant="outline" className="font-normal bg-white/10 text-white border-white/20">{course.level}</Badge>
+                <Badge variant="outline" className="font-normal bg-purple-100 text-purple-800 border-purple-200">{course.level}</Badge>
               </div>
             </div>
             
             <div className="flex items-center gap-3 mb-6">
-              <Avatar className="h-10 w-10 border-2 border-white">
+              <Avatar className="h-10 w-10 border-2 border-purple-200">
                 <AvatarImage src={course.instructor.avatar} />
                 <AvatarFallback>{course.instructor.name.charAt(0)}</AvatarFallback>
               </Avatar>
               <div>
-                <div className="font-medium">{course.instructor.name}</div>
-                <div className="text-sm text-white/80">{course.instructor.role}</div>
+                <div className="font-medium text-gray-900">{course.instructor.name}</div>
+                <div className="text-sm text-gray-500">{course.instructor.role}</div>
               </div>
             </div>
             
-            {/* Calendar Section - Moved here from below */}
-            <div className="mt-6 bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
-              <h2 className="text-xl font-bold mb-4">Course Schedule</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Calendar Section - More compact */}
+            <div className="mt-4 bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
+              <h2 className="text-lg font-bold mb-3 text-purple-800">Course Schedule</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <Calendar
                     mode="single"
                     selected={date}
                     onSelect={setDate}
-                    className="bg-white/5 rounded-lg border border-white/20"
+                    className="bg-white rounded-lg border border-gray-200 p-0"
                     modifiers={{
                       taskDay: (day) => isDayWithTask(day),
                     }}
                     modifiersClassNames={{
                       taskDay: "bg-purple-500 text-white font-bold hover:bg-purple-600",
                     }}
+                    showOutsideDays={false}
                   />
-                  <div className="mt-4 text-sm">
-                    <p className="mb-2">Course deadlines are highlighted</p>
-                    <ul className="space-y-1">
-                      <li className="flex items-center">
-                        <div className="w-3 h-3 rounded-full bg-purple-500 mr-2"></div>
-                        <span>Important date</span>
-                      </li>
-                    </ul>
+                  <div className="mt-2 text-xs flex items-center">
+                    <div className="w-3 h-3 rounded-full bg-purple-500 mr-2"></div>
+                    <span className="text-gray-600">Important deadline</span>
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-lg font-medium mb-3">
-                    {date ? date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : 'Select a date'}
+                  <h3 className="text-md font-medium mb-2 text-gray-800">
+                    {date ? date.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' }) : 'Select a date'}
                   </h3>
                   {selectedDateTasks.length > 0 ? (
-                    <div className="space-y-3">
+                    <div className="space-y-2">
                       {selectedDateTasks.map((task, index) => (
-                        <div key={index} className="p-3 bg-white/10 rounded-lg border border-white/20">
-                          <div className="font-medium">{task.title}</div>
-                          <div className="text-sm text-white/80 mt-1">
-                            <Badge variant="outline" className="bg-purple-500/20 text-white border-purple-400/30">
+                        <div key={index} className="p-2 bg-gray-50 rounded-lg border border-gray-200">
+                          <div className="font-medium text-gray-800">{task.title}</div>
+                          <div className="text-xs text-gray-600 mt-1">
+                            <Badge variant="outline" className="bg-purple-100 text-purple-800 border-purple-200">
                               {task.type.charAt(0).toUpperCase() + task.type.slice(1)}
                             </Badge>
                           </div>
@@ -123,8 +119,8 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
                       ))}
                     </div>
                   ) : (
-                    <div className="p-3 bg-white/10 rounded-lg border border-white/20">
-                      <p className="text-white/80">No tasks scheduled for this date.</p>
+                    <div className="p-2 bg-gray-50 rounded-lg border border-gray-200">
+                      <p className="text-gray-500 text-sm">No tasks scheduled for this date.</p>
                     </div>
                   )}
                 </div>
@@ -133,7 +129,7 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
           </div>
           
           <div className="lg:col-span-1">
-            <Card className="overflow-hidden shadow-lg bg-white/10 backdrop-blur-sm border-white/20">
+            <Card className="overflow-hidden shadow-md bg-white border-gray-200">
               <div className="aspect-video w-full">
                 <img 
                   src={course.imgSrc} 
@@ -141,23 +137,23 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
                   className="w-full h-full object-cover" 
                 />
               </div>
-              <CardContent className="p-6">
+              <CardContent className="p-4">
                 <div className="space-y-3">
                   <div className="flex justify-between text-sm">
-                    <span className="text-white/80">Total hours</span>
-                    <span>{course.totalHours}</span>
+                    <span className="text-gray-500">Total hours</span>
+                    <span className="font-medium">{course.totalHours}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-white/80">Lectures</span>
-                    <span>{course.totalLectures}</span>
+                    <span className="text-gray-500">Lectures</span>
+                    <span className="font-medium">{course.totalLectures}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-white/80">Exercises</span>
-                    <span>{course.totalExercises}</span>
+                    <span className="text-gray-500">Exercises</span>
+                    <span className="font-medium">{course.totalExercises}</span>
                   </div>
                 </div>
                 
-                <div className="mt-6">
+                <div className="mt-4">
                   <Button className="w-full bg-green-600 hover:bg-green-700">
                     Enrolled
                   </Button>
