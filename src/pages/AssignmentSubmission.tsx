@@ -55,8 +55,8 @@ const AssignmentSubmission = () => {
   };
   
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-900/20 to-pink-900/10 dark:bg-slate-900 pb-12">
-      <div className="pt-20 bg-gradient-to-r from-purple-700 to-pink-600 text-white">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 pb-12">
+      <div className="pt-20 bg-purple-700 text-white">
         <div className="container mx-auto px-4 py-8 max-w-7xl">
           <Link to={`/course/${courseId}`} className="flex items-center text-sm mb-4 hover:underline text-white/80">
             <ArrowLeft className="h-4 w-4 mr-1" />
@@ -101,7 +101,7 @@ const AssignmentSubmission = () => {
                 <h3 className="text-lg font-medium mb-3">Grading Criteria</h3>
                 <div className="space-y-2 mb-6">
                   {assignment.rubric.map((item, index) => (
-                    <div key={index} className="flex justify-between items-center p-3 bg-purple-50 dark:bg-purple-900/20 rounded-md">
+                    <div key={index} className="flex justify-between items-center p-3 bg-slate-100 dark:bg-slate-800 rounded-md">
                       <span>{item.criterion}</span>
                       <Badge variant="outline" className="bg-purple-100 dark:bg-purple-900/40 text-purple-800 dark:text-purple-300">
                         {item.points} points
@@ -122,7 +122,7 @@ const AssignmentSubmission = () => {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="space-y-2">
                     <h3 className="text-sm font-medium">Upload Files</h3>
-                    <div className="border-2 border-dashed border-purple-200 dark:border-purple-800/30 rounded-lg p-6 text-center hover:bg-purple-50 dark:hover:bg-purple-900/10 transition-colors cursor-pointer">
+                    <div className="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-lg p-6 text-center hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer">
                       <label htmlFor="file-upload" className="cursor-pointer">
                         <div className="flex flex-col items-center">
                           <Upload className="h-10 w-10 text-purple-500 mb-2" />
@@ -164,7 +164,7 @@ const AssignmentSubmission = () => {
                     />
                   </div>
                   
-                  <div className="bg-purple-50 dark:bg-purple-900/20 p-3 rounded-md flex items-start">
+                  <div className="bg-slate-100 dark:bg-slate-800 p-3 rounded-md flex items-start">
                     <AlertCircle className="h-5 w-5 text-purple-600 dark:text-purple-400 mt-0.5 mr-2 flex-shrink-0" />
                     <p className="text-xs text-muted-foreground">
                       Once submitted, you cannot edit your submission. Make sure everything is correct before submitting.

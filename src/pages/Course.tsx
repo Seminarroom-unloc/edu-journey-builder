@@ -23,7 +23,7 @@ const Course = () => {
   };
   
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-900/20 to-pink-900/10 dark:bg-slate-900">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
       <CourseHeader course={COURSE} />
       
       <div className="container mx-auto px-4 py-6 max-w-7xl">
@@ -38,7 +38,7 @@ const Course = () => {
           {COURSE.modules.map((module, index) => (
             <div 
               key={module.id} 
-              className="border border-purple-200 dark:border-purple-800/30 rounded-md overflow-hidden bg-white/80 dark:bg-slate-800/50 shadow-sm hover:shadow-md transition-shadow backdrop-blur-sm"
+              className="border border-gray-200 dark:border-gray-800 rounded-md overflow-hidden bg-white dark:bg-slate-800 shadow-sm hover:shadow-md transition-shadow"
             >
               <div className="p-4">
                 <div className="flex flex-col items-start w-full">
@@ -48,7 +48,7 @@ const Course = () => {
                         <ListOrdered className="h-3.5 w-3.5 mr-1" />
                         Module {index + 1}
                       </Badge>
-                      <h3 className="text-lg font-medium text-purple-900 dark:text-purple-300">{module.title}</h3>
+                      <h3 className="text-lg font-medium text-gray-900 dark:text-gray-300">{module.title}</h3>
                     </div>
                     <Button 
                       onClick={() => handleModuleClick(module.id)}

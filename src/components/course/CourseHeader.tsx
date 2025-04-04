@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useNavigate } from 'react-router-dom';
 import { CourseType } from '@/types/course';
 import { Calendar } from '@/components/ui/calendar';
 import { useState } from 'react';
@@ -14,7 +13,6 @@ interface CourseHeaderProps {
 }
 
 const CourseHeader = ({ course }: CourseHeaderProps) => {
-  const navigate = useNavigate();
   const [date, setDate] = useState<Date | undefined>(new Date());
   
   // Mock upcoming tasks for calendar display
@@ -48,7 +46,7 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
   const selectedDateTasks = getTasksForDate(date);
   
   return (
-    <div className="pt-16 bg-gradient-to-r from-purple-700 to-pink-600 text-white">
+    <div className="pt-16 bg-purple-700 text-white">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
@@ -69,7 +67,7 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
               </div>
             </div>
             
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 mb-6">
               <Avatar className="h-10 w-10 border-2 border-white">
                 <AvatarImage src={course.instructor.avatar} />
                 <AvatarFallback>{course.instructor.name.charAt(0)}</AvatarFallback>
@@ -116,16 +114,16 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
           </div>
         </div>
         
-        {/* Calendar Section */}
+        {/* Calendar Section - Now moved above */}
         <div className="mt-8 bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
-          <h2 className="text-xl font-bold mb-4">Upcoming Tasks</h2>
+          <h2 className="text-xl font-bold mb-4">Course Schedule</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <Calendar
                 mode="single"
                 selected={date}
                 onSelect={setDate}
-                className="p-3 pointer-events-auto bg-white/5 rounded-lg border border-white/20"
+                className="bg-white/5 rounded-lg border border-white/20"
                 modifiers={{
                   taskDay: (day) => isDayWithTask(day),
                 }}
@@ -133,6 +131,15 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
                   taskDay: "bg-purple-500 text-white font-bold hover:bg-purple-600",
                 }}
               />
+              <div className="mt-4 text-sm">
+                <p className="mb-2">Highlighted dates show upcoming deadlines</p>
+                <ul className="space-y-1">
+                  <li className="flex items-center">
+                    <div className="w-3 h-3 rounded-full bg-purple-500 mr-2"></div>
+                    <span>Task or deadline</span>
+                  </li>
+                </ul>
+              </div>
             </div>
             <div>
               <h3 className="text-lg font-medium mb-3">

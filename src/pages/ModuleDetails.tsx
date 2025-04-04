@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { COURSE } from '@/data/courseData';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
@@ -25,6 +25,7 @@ const ModuleDetails = () => {
   const [module, setModule] = useState<any>(null);
   const [moduleIndex, setModuleIndex] = useState(0);
   const [progress, setProgress] = useState(0);
+  const navigate = useNavigate();
   
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -49,6 +50,10 @@ const ModuleDetails = () => {
       </div>
     );
   }
+  
+  const handleStartAssignment = (assignmentId: string) => {
+    navigate(`/assignment/${courseId}/${assignmentId}`);
+  };
   
   // Mock data for demonstration purposes
   // In a real app, this would be fetched from an API based on the module ID
@@ -93,12 +98,12 @@ const ModuleDetails = () => {
   const getProgressColor = () => {
     if (progress === 100) return "bg-green-500";
     if (progress > 60) return "bg-purple-500";
-    return "bg-pink-500";
+    return "bg-purple-500";
   };
   
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-900/20 to-pink-900/10 dark:bg-slate-900">
-      <div className="pt-20 bg-gradient-to-r from-purple-700 to-pink-600 text-white">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
+      <div className="pt-20 bg-purple-700 text-white">
         <div className="container mx-auto px-4 py-8 max-w-7xl">
           <Link to={`/course/${courseId}`} className="flex items-center text-sm mb-4 hover:underline text-white/80">
             <ArrowLeft className="h-4 w-4 mr-1" />
@@ -121,7 +126,7 @@ const ModuleDetails = () => {
       </div>
       
       <div className="container mx-auto px-4 py-6 max-w-7xl">
-        <Card className="mb-6 bg-white/80 dark:bg-slate-800/50 border-purple-200 dark:border-purple-800/30">
+        <Card className="mb-6 bg-white dark:bg-slate-800 border-gray-200 dark:border-gray-700">
           <CardContent className="p-6">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
               <div className="flex items-center mb-2 md:mb-0">
@@ -156,7 +161,7 @@ const ModuleDetails = () => {
             <h2 className="text-xl font-semibold mb-4 text-purple-800 dark:text-purple-300">Reading Materials</h2>
             <div className="grid gap-4 md:grid-cols-2">
               {readingMaterials.map((material) => (
-                <Card key={material.id} className="bg-white/80 dark:bg-slate-800/50 border-purple-200 dark:border-purple-800/30 hover:shadow-md transition-shadow">
+                <Card key={material.id} className="bg-white dark:bg-slate-800 border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow">
                   <CardHeader className="pb-2">
                     <div className="flex justify-between items-start">
                       <CardTitle className="text-lg">{material.title}</CardTitle>
@@ -176,7 +181,7 @@ const ModuleDetails = () => {
             <h2 className="text-xl font-semibold mb-4 text-purple-800 dark:text-purple-300">Video Lectures</h2>
             <div className="grid gap-4 md:grid-cols-2">
               {videoLinks.map((video) => (
-                <Card key={video.id} className="bg-white/80 dark:bg-slate-800/50 border-purple-200 dark:border-purple-800/30 hover:shadow-md transition-shadow">
+                <Card key={video.id} className="bg-white dark:bg-slate-800 border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow">
                   <CardHeader className="pb-2">
                     <CardTitle className="text-lg">{video.title}</CardTitle>
                   </CardHeader>
@@ -196,7 +201,7 @@ const ModuleDetails = () => {
             <h2 className="text-xl font-semibold mb-4 text-purple-800 dark:text-purple-300">Assignments</h2>
             <div className="grid gap-4 md:grid-cols-2">
               {assignments.map((assignment) => (
-                <Card key={assignment.id} className="bg-white/80 dark:bg-slate-800/50 border-purple-200 dark:border-purple-800/30 hover:shadow-md transition-shadow">
+                <Card key={assignment.id} className="bg-white dark:bg-slate-800 border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow">
                   <CardHeader className="pb-2">
                     <div className="flex justify-between items-start mb-1">
                       <Badge variant="outline" className="bg-purple-100 dark:bg-purple-900/40 text-purple-800 dark:text-purple-300">
@@ -226,7 +231,12 @@ const ModuleDetails = () => {
                         </div>
                       </div>
                     </div>
-                    <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">Start Assignment</Button>
+                    <Button 
+                      className="w-full bg-purple-600 hover:bg-purple-700 text-white"
+                      onClick={() => handleStartAssignment(assignment.id)}
+                    >
+                      Start Assignment
+                    </Button>
                   </CardContent>
                 </Card>
               ))}
@@ -237,7 +247,7 @@ const ModuleDetails = () => {
             <h2 className="text-xl font-semibold mb-4 text-purple-800 dark:text-purple-300">Quiz</h2>
             <div className="grid gap-4 md:grid-cols-2">
               {quizzes.map((quiz) => (
-                <Card key={quiz.id} className="bg-white/80 dark:bg-slate-800/50 border-purple-200 dark:border-purple-800/30 hover:shadow-md transition-shadow">
+                <Card key={quiz.id} className="bg-white dark:bg-slate-800 border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow">
                   <CardHeader className="pb-2">
                     <div className="flex justify-between items-start mb-1">
                       <Badge variant="outline" className="bg-purple-100 dark:bg-purple-900/40 text-purple-800 dark:text-purple-300">
