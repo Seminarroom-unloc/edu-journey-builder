@@ -38,13 +38,13 @@ const Course = () => {
           {COURSE.modules.map((module, index) => (
             <div 
               key={module.id} 
-              className="border border-gray-200 rounded-md overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow"
+              className="border border-purple-100 rounded-md overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow"
             >
               <div className="p-4">
                 <div className="flex flex-col items-start w-full">
                   <div className="flex items-center w-full justify-between">
                     <div className="flex items-center">
-                      <Badge variant="outline" className="mr-3 bg-lavender text-purple-700 border-purple-100">
+                      <Badge variant="outline" className="mr-3 bg-lavender text-purple-600 border-purple-100">
                         <ListOrdered className="h-3.5 w-3.5 mr-1" />
                         Module {index + 1}
                       </Badge>
@@ -53,7 +53,7 @@ const Course = () => {
                     <Button 
                       onClick={() => handleModuleClick(module.id)}
                       size="sm"
-                      className="bg-purple-400 hover:bg-purple-500 text-white"
+                      className="bg-purple-300 hover:bg-purple-400 text-purple-800"
                     >
                       Go to Module Materials
                     </Button>
