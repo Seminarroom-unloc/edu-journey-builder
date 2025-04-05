@@ -1,49 +1,31 @@
 
-import { Clock, Star } from 'lucide-react';
+import { useState } from 'react';
+import { Clock, Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { CourseType } from '@/types/course';
-import { Calendar } from '@/components/ui/calendar';
-import { useState } from 'react';
+import { 
+  Carousel, 
+  CarouselContent, 
+  CarouselItem, 
+  CarouselNext, 
+  CarouselPrevious 
+} from '@/components/ui/carousel';
 
 interface CourseHeaderProps {
   course: CourseType;
 }
 
 const CourseHeader = ({ course }: CourseHeaderProps) => {
-  const [date, setDate] = useState<Date | undefined>(new Date());
-  
-  // Mock upcoming tasks for calendar display
-  const upcomingTasks = [
+  // Mock upcoming tasks for due dates slider
+  const upcomingDeadlines = [
     { date: new Date(2025, 3, 10), title: 'Assignment 1 Due', type: 'assignment' },
     { date: new Date(2025, 3, 15), title: 'Quiz 1', type: 'quiz' },
     { date: new Date(2025, 3, 22), title: 'Project Submission', type: 'project' },
     { date: new Date(2025, 4, 5), title: 'Final Exam', type: 'exam' }
   ];
-  
-  // Function to highlight dates with tasks
-  const isDayWithTask = (day: Date) => {
-    return upcomingTasks.some(task => 
-      day.getDate() === task.date.getDate() && 
-      day.getMonth() === task.date.getMonth() && 
-      day.getFullYear() === task.date.getFullYear()
-    );
-  };
-  
-  // Get tasks for selected date
-  const getTasksForDate = (selectedDate: Date | undefined) => {
-    if (!selectedDate) return [];
-    
-    return upcomingTasks.filter(task => 
-      selectedDate.getDate() === task.date.getDate() && 
-      selectedDate.getMonth() === task.date.getMonth() && 
-      selectedDate.getFullYear() === task.date.getFullYear()
-    );
-  };
-  
-  const selectedDateTasks = getTasksForDate(date);
   
   return (
     <div className="pt-16 bg-white text-gray-800">
@@ -78,58 +60,37 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
               </div>
             </div>
             
-            {/* Calendar Section - Compact */}
-            <div className="mt-2 bg-white rounded-lg p-3 border border-gray-200 shadow-sm">
-              <h2 className="text-lg font-medium mb-2 text-gray-800">Course Schedule</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div>
-                  <Calendar
-                    mode="single"
-                    selected={date}
-                    onSelect={setDate}
-                    className="bg-white rounded-lg border border-gray-100 p-0"
-                    modifiers={{
-                      taskDay: (day) => isDayWithTask(day),
-                    }}
-                    modifiersClassNames={{
-                      taskDay: "bg-purple-200 text-purple-800 font-semibold hover:bg-purple-300",
-                    }}
-                    showOutsideDays={false}
-                  />
-                  <div className="mt-1 text-xs flex items-center">
-                    <div className="w-3 h-3 rounded-full bg-purple-200 mr-2"></div>
-                    <span className="text-gray-600">Important deadline</span>
-                  </div>
-                </div>
-                <div>
-                  <h3 className="text-md font-medium mb-2 text-gray-800">
-                    {date ? date.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' }) : 'Select a date'}
-                  </h3>
-                  {selectedDateTasks.length > 0 ? (
-                    <div className="space-y-2">
-                      {selectedDateTasks.map((task, index) => (
-                        <div key={index} className="p-2 bg-gray-50 rounded-lg border border-gray-100">
-                          <div className="font-medium text-gray-800">{task.title}</div>
-                          <div className="text-xs text-gray-600 mt-1">
-                            <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-100">
-                              {task.type.charAt(0).toUpperCase() + task.type.slice(1)}
+            {/* Due Dates Slider */}
+            <div className="mt-4 bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
+              <h2 className="text-lg font-medium mb-3 text-gray-800">Upcoming Deadlines</h2>
+              <Carousel className="w-full">
+                <CarouselContent>
+                  {upcomingDeadlines.map((deadline, index) => (
+                    <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                      <div className="p-2">
+                        <Card className="bg-purple-50 border-purple-100">
+                          <CardContent className="p-4">
+                            <div className="text-sm font-medium text-purple-800">
+                              {deadline.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                            </div>
+                            <div className="font-medium mt-1 text-gray-800">{deadline.title}</div>
+                            <Badge variant="outline" className="mt-2 bg-white/80 text-purple-700 border-purple-200">
+                              {deadline.type.charAt(0).toUpperCase() + deadline.type.slice(1)}
                             </Badge>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="p-2 bg-gray-50 rounded-lg border border-gray-100">
-                      <p className="text-gray-500 text-sm">No tasks scheduled for this date.</p>
-                    </div>
-                  )}
-                </div>
-              </div>
+                          </CardContent>
+                        </Card>
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="left-2 bg-white text-purple-600 hover:bg-purple-50 hover:text-purple-700 border-purple-100" />
+                <CarouselNext className="right-2 bg-white text-purple-600 hover:bg-purple-50 hover:text-purple-700 border-purple-100" />
+              </Carousel>
             </div>
           </div>
           
           <div className="lg:col-span-1">
-            <Card className="overflow-hidden shadow-sm bg-white border-gray-200 h-full flex flex-col">
+            <Card className="overflow-hidden shadow-sm bg-white border-gray-200">
               <div className="aspect-video w-full">
                 <img 
                   src={course.imgSrc} 
@@ -137,7 +98,7 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
                   className="w-full h-full object-cover" 
                 />
               </div>
-              <CardContent className="p-4 flex-grow flex flex-col justify-between">
+              <CardContent className="p-4">
                 <div className="space-y-3">
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-500">Total hours</span>
@@ -153,7 +114,7 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
                   </div>
                 </div>
                 
-                <div className="mt-auto pt-4">
+                <div className="mt-4">
                   <Button className="w-full bg-green-600 hover:bg-green-700">
                     Enrolled
                   </Button>

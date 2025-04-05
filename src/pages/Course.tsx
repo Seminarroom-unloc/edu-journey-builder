@@ -44,7 +44,7 @@ const Course = () => {
                 <div className="flex flex-col items-start w-full">
                   <div className="flex items-center w-full justify-between">
                     <div className="flex items-center">
-                      <Badge variant="outline" className="mr-3 bg-purple-50 text-purple-700 border-purple-100">
+                      <Badge variant="outline" className="mr-3 bg-lavender text-purple-700 border-purple-100">
                         <ListOrdered className="h-3.5 w-3.5 mr-1" />
                         Module {index + 1}
                       </Badge>
