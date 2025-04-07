@@ -34,13 +34,11 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
     { date: new Date(2025, 4, 5), title: 'Final Exam', type: 'exam' }
   ];
 
-  // Mock leaderboard data
+  // Mock leaderboard data - showing only top 3
   const leaderboardData = [
-    { id: 1, name: 'Emma Johnson', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Emma', score: 950, completionRate: 98 },
-    { id: 2, name: 'Michael Chen', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Michael', score: 925, completionRate: 95 },
-    { id: 3, name: 'Sophia Lee', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sophia', score: 910, completionRate: 92 },
-    { id: 4, name: 'James Wilson', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=James', score: 895, completionRate: 90 },
-    { id: 5, name: 'Olivia Davis', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Olivia', score: 880, completionRate: 88 }
+    { id: 1, name: 'Emma Johnson', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Emma', grade: 'A+', completionRate: 98 },
+    { id: 2, name: 'Michael Chen', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Michael', grade: 'A', completionRate: 95 },
+    { id: 3, name: 'Sophia Lee', avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sophia', grade: 'A-', completionRate: 92 },
   ];
   
   const handleCertificateDownload = () => {
@@ -142,6 +140,54 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
                 </Button>
               </div>
             </div>
+            
+            {/* Leaderboard as a separate box */}
+            <div className="mt-4 bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-lg font-medium text-gray-800 flex items-center">
+                  <Award className="h-5 w-5 mr-2 text-yellow-500" />
+                  Course Leaderboard
+                </h3>
+                <Badge variant="outline" className="bg-purple-50 text-purple-700">
+                  <Users className="h-3.5 w-3.5 mr-1.5" />
+                  Top Students
+                </Badge>
+              </div>
+              
+              <div className="space-y-3">
+                {leaderboardData.map((student, index) => (
+                  <div key={student.id} className={`flex items-center justify-between p-2.5 rounded-lg ${
+                    index === 0 ? 'bg-yellow-50 border border-yellow-100' : 
+                    index === 1 ? 'bg-gray-50 border border-gray-200' : 
+                    'bg-amber-50 border border-amber-100'
+                  }`}>
+                    <div className="flex items-center gap-3">
+                      <div className={`flex items-center justify-center w-7 h-7 rounded-full text-white font-bold text-xs ${
+                        index === 0 ? 'bg-yellow-500' : 
+                        index === 1 ? 'bg-gray-400' :
+                        'bg-amber-600'
+                      }`}>
+                        {index + 1}
+                      </div>
+                      <Avatar className="h-8 w-8">
+                        <AvatarImage src={student.avatar} />
+                        <AvatarFallback>{student.name[0]}</AvatarFallback>
+                      </Avatar>
+                      <span className="font-medium text-gray-800">{student.name}</span>
+                    </div>
+                    <div className="flex items-center">
+                      <span className={`font-bold text-sm ${
+                        index === 0 ? 'text-yellow-600' : 
+                        index === 1 ? 'text-gray-600' :
+                        'text-amber-700'
+                      }`}>
+                        Grade: {student.grade}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
           
           <div className="lg:col-span-1">
@@ -167,64 +213,6 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
                     <span className="text-gray-500">Exercises</span>
                     <span className="font-medium">{course.totalExercises}</span>
                   </div>
-                </div>
-                
-                {/* Leaderboard Section */}
-                <div className="mt-6 pt-4 border-t border-gray-200">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-base font-medium text-gray-800 flex items-center">
-                      <Award className="h-4 w-4 mr-1.5 text-purple-600" />
-                      Course Leaderboard
-                    </h3>
-                    <Badge variant="outline" className="text-xs bg-purple-50 text-purple-700">
-                      <Users className="h-3 w-3 mr-1" />
-                      {leaderboardData.length}
-                    </Badge>
-                  </div>
-                  
-                  <Table>
-                    <TableHeader>
-                      <TableRow className="hover:bg-transparent">
-                        <TableHead className="w-[50px] p-2">Rank</TableHead>
-                        <TableHead className="p-2">Student</TableHead>
-                        <TableHead className="text-right p-2">Points</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {leaderboardData.map((student, index) => (
-                        <TableRow 
-                          key={student.id} 
-                          className={`hover:bg-purple-50 ${index === 0 ? 'bg-yellow-50/50' : ''}`}
-                        >
-                          <TableCell className="font-medium p-2 py-1.5">
-                            {index === 0 ? (
-                              <span className="text-yellow-500 font-bold">1st</span>
-                            ) : index === 1 ? (
-                              <span className="text-gray-400 font-medium">2nd</span>
-                            ) : index === 2 ? (
-                              <span className="text-amber-600 font-medium">3rd</span>
-                            ) : (
-                              `${index + 1}th`
-                            )}
-                          </TableCell>
-                          <TableCell className="p-2 py-1.5">
-                            <div className="flex items-center gap-2">
-                              <Avatar className="h-6 w-6">
-                                <AvatarImage src={student.avatar} />
-                                <AvatarFallback>{student.name[0]}</AvatarFallback>
-                              </Avatar>
-                              <span className="text-sm font-medium truncate max-w-[100px]">
-                                {student.name}
-                              </span>
-                            </div>
-                          </TableCell>
-                          <TableCell className="text-right p-2 py-1.5">
-                            <span className="font-medium text-purple-700">{student.score}</span>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
                 </div>
               </CardContent>
             </Card>
