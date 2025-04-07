@@ -14,6 +14,10 @@ const AssignmentSubmission = () => {
   const [linkSubmission, setLinkSubmission] = useState('');
   const { toast } = useToast();
   
+  // For simplicity, we'll hard-code the moduleId
+  // In a real app, this would be fetched from an API or passed as a parameter
+  const moduleId = 'm1';
+  
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -58,9 +62,9 @@ const AssignmentSubmission = () => {
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900 pb-12">
       <div className="pt-20 bg-purple-700 text-white">
         <div className="container mx-auto px-4 py-8 max-w-7xl">
-          <Link to={`/course/${courseId}`} className="flex items-center text-sm mb-4 hover:underline text-white/80">
+          <Link to={`/module/${courseId}/${moduleId}`} className="flex items-center text-sm mb-4 hover:underline text-white/80">
             <ArrowLeft className="h-4 w-4 mr-1" />
-            Back to Course
+            Back to Module
           </Link>
           
           <h1 className="text-3xl font-bold mb-2">{assignment.title}</h1>

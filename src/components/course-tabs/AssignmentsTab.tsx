@@ -3,10 +3,11 @@ import { Calendar, Clock, User, FileCheck } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 interface AssignmentsTabProps {
   courseId: string;
+  moduleId?: string; // Add moduleId parameter to ensure it's passed from parent
 }
 
 const ASSIGNMENTS = [
@@ -48,8 +49,12 @@ const ASSIGNMENTS = [
   }
 ];
 
-const AssignmentsTab = ({ courseId }: AssignmentsTabProps) => {
+const AssignmentsTab = ({ courseId, moduleId }: AssignmentsTabProps) => {
   const navigate = useNavigate();
+  const params = useParams();
+  
+  // Use moduleId from props if available, otherwise get it from URL params
+  const currentModuleId = moduleId || params.moduleId;
   
   const handleAssignmentClick = (assignmentId: string) => {
     navigate(`/assignment/${courseId}/${assignmentId}`);

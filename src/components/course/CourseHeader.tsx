@@ -1,10 +1,11 @@
 
 import { useState } from 'react';
-import { Clock, Star, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Clock, Star, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Progress } from '@/components/ui/progress';
 import { CourseType } from '@/types/course';
 import { 
   Carousel, 
@@ -13,12 +14,17 @@ import {
   CarouselNext, 
   CarouselPrevious 
 } from '@/components/ui/carousel';
+import { useToast } from '@/hooks/use-toast';
 
 interface CourseHeaderProps {
   course: CourseType;
 }
 
 const CourseHeader = ({ course }: CourseHeaderProps) => {
+  // Mock progress state - in a real app, this would come from user data
+  const [courseProgress, setCourseProgress] = useState(65);
+  const { toast } = useToast();
+  
   // Mock upcoming tasks for due dates slider
   const upcomingDeadlines = [
     { date: new Date(2025, 3, 10), title: 'Assignment 1 Due', type: 'assignment' },
@@ -26,6 +32,21 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
     { date: new Date(2025, 3, 22), title: 'Project Submission', type: 'project' },
     { date: new Date(2025, 4, 5), title: 'Final Exam', type: 'exam' }
   ];
+  
+  const handleCertificateDownload = () => {
+    if (courseProgress >= 100) {
+      toast({
+        title: "Certificate Downloaded",
+        description: "Your course completion certificate has been downloaded.",
+      });
+    } else {
+      toast({
+        title: "Cannot Download Certificate",
+        description: "You need to complete the course first.",
+        variant: "destructive"
+      });
+    }
+  };
   
   return (
     <div className="pt-16 bg-white text-gray-800">
@@ -87,6 +108,30 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
                 <CarouselNext className="right-2 bg-white text-purple-600 hover:bg-purple-50 hover:text-purple-700 border-purple-100" />
               </Carousel>
             </div>
+            
+            {/* Course Progress Tracker */}
+            <div className="mt-4 bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
+              <div className="flex justify-between items-center mb-2">
+                <h2 className="text-lg font-medium text-gray-800">Course Progress</h2>
+                <span className="font-medium text-purple-700">{courseProgress}%</span>
+              </div>
+              <Progress value={courseProgress} className="h-2.5 bg-purple-100" />
+              
+              <div className="mt-4 flex justify-end">
+                <Button
+                  onClick={handleCertificateDownload}
+                  className={`flex items-center gap-2 ${
+                    courseProgress >= 100 
+                      ? "bg-green-600 hover:bg-green-700" 
+                      : "bg-gray-300 hover:bg-gray-400 cursor-not-allowed"
+                  }`}
+                  disabled={courseProgress < 100}
+                >
+                  <Download className="h-4 w-4" />
+                  Download Certificate
+                </Button>
+              </div>
+            </div>
           </div>
           
           <div className="lg:col-span-1">
@@ -112,12 +157,6 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
                     <span className="text-gray-500">Exercises</span>
                     <span className="font-medium">{course.totalExercises}</span>
                   </div>
-                </div>
-                
-                <div className="mt-4">
-                  <Button className="w-full bg-green-600 hover:bg-green-700">
-                    Enrolled
-                  </Button>
                 </div>
               </CardContent>
             </Card>
