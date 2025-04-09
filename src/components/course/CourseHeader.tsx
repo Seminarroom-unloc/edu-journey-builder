@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Clock, Star, Download, Award, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -117,78 +116,27 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
               </Carousel>
             </div>
             
-            {/* Course Progress and Leaderboard in a grid */}
-            <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Course Progress Tracker */}
-              <div className="bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
-                <div className="flex justify-between items-center mb-2">
-                  <h2 className="text-lg font-medium text-gray-800">Course Progress</h2>
-                  <span className="font-medium text-purple-700">{courseProgress}%</span>
-                </div>
-                <Progress value={courseProgress} className="h-2.5 bg-purple-100" />
-                
-                <div className="mt-4 flex justify-end">
-                  <Button
-                    onClick={handleCertificateDownload}
-                    className={`flex items-center gap-2 ${
-                      courseProgress >= 100 
-                        ? "bg-green-600 hover:bg-green-700" 
-                        : "bg-gray-300 hover:bg-gray-400 cursor-not-allowed"
-                    }`}
-                    disabled={courseProgress < 100}
-                  >
-                    <Download className="h-4 w-4" />
-                    Download Certificate
-                  </Button>
-                </div>
+            {/* Course Progress Tracker */}
+            <div className="mt-4 bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
+              <div className="flex justify-between items-center mb-2">
+                <h2 className="text-lg font-medium text-gray-800">Course Progress</h2>
+                <span className="font-medium text-purple-700">{courseProgress}%</span>
               </div>
+              <Progress value={courseProgress} className="h-2.5 bg-purple-100" />
               
-              {/* Leaderboard beside progress (instead of below) */}
-              <div className="bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-lg font-medium text-gray-800 flex items-center">
-                    <Award className="h-5 w-5 mr-2 text-yellow-500" />
-                    Course Leaderboard
-                  </h3>
-                  <Badge variant="outline" className="bg-purple-50 text-purple-700">
-                    <Users className="h-3.5 w-3.5 mr-1.5" />
-                    Top Students
-                  </Badge>
-                </div>
-                
-                <div className="space-y-3">
-                  {leaderboardData.map((student, index) => (
-                    <div key={student.id} className={`flex items-center justify-between p-2.5 rounded-lg ${
-                      index === 0 ? 'bg-yellow-50 border border-yellow-100' : 
-                      index === 1 ? 'bg-gray-50 border border-gray-200' : 
-                      'bg-amber-50 border border-amber-100'
-                    }`}>
-                      <div className="flex items-center gap-3">
-                        <div className={`flex items-center justify-center w-7 h-7 rounded-full text-white font-bold text-xs ${
-                          index === 0 ? 'bg-yellow-500' : 
-                          index === 1 ? 'bg-gray-400' :
-                          'bg-amber-600'
-                        }`}>
-                          {index + 1}
-                        </div>
-                        <Avatar className="h-8 w-8">
-                          <AvatarImage src={student.avatar} />
-                          <AvatarFallback>{student.name[0]}</AvatarFallback>
-                        </Avatar>
-                        <span className="font-medium text-gray-800">{student.name}</span>
-                      </div>
-                      <div className="flex items-center">
-                        <span className={`font-bold text-sm ${
-                          index === 0 ? 'text-yellow-600' : 
-                          index === 1 ? 'text-gray-600' :
-                          'text-amber-700'
-                        }`}>
-                          Grade: {student.grade}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+              <div className="mt-4 flex justify-end">
+                <Button
+                  onClick={handleCertificateDownload}
+                  className={`flex items-center gap-2 ${
+                    courseProgress >= 100 
+                      ? "bg-green-600 hover:bg-green-700" 
+                      : "bg-gray-300 hover:bg-gray-400 cursor-not-allowed"
+                  }`}
+                  disabled={courseProgress < 100}
+                >
+                  <Download className="h-4 w-4" />
+                  Download Certificate
+                </Button>
               </div>
             </div>
           </div>
@@ -215,6 +163,54 @@ const CourseHeader = ({ course }: CourseHeaderProps) => {
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-500">Exercises</span>
                     <span className="font-medium">{course.totalExercises}</span>
+                  </div>
+                </div>
+                
+                {/* Leaderboard below total hours box */}
+                <div className="mt-4 border-t pt-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="text-lg font-medium text-gray-800 flex items-center">
+                      <Award className="h-5 w-5 mr-2 text-yellow-500" />
+                      Course Leaderboard
+                    </h3>
+                    <Badge variant="outline" className="bg-purple-50 text-purple-700">
+                      <Users className="h-3.5 w-3.5 mr-1.5" />
+                      Top Students
+                    </Badge>
+                  </div>
+                  
+                  <div className="space-y-3">
+                    {leaderboardData.map((student, index) => (
+                      <div key={student.id} className={`flex items-center justify-between p-2.5 rounded-lg ${
+                        index === 0 ? 'bg-yellow-50 border border-yellow-100' : 
+                        index === 1 ? 'bg-gray-50 border border-gray-200' : 
+                        'bg-amber-50 border border-amber-100'
+                      }`}>
+                        <div className="flex items-center gap-3">
+                          <div className={`flex items-center justify-center w-7 h-7 rounded-full text-white font-bold text-xs ${
+                            index === 0 ? 'bg-yellow-500' : 
+                            index === 1 ? 'bg-gray-400' :
+                            'bg-amber-600'
+                          }`}>
+                            {index + 1}
+                          </div>
+                          <Avatar className="h-8 w-8">
+                            <AvatarImage src={student.avatar} />
+                            <AvatarFallback>{student.name[0]}</AvatarFallback>
+                          </Avatar>
+                          <span className="font-medium text-gray-800">{student.name}</span>
+                        </div>
+                        <div className="flex items-center">
+                          <span className={`font-bold text-sm ${
+                            index === 0 ? 'text-yellow-600' : 
+                            index === 1 ? 'text-gray-600' :
+                            'text-amber-700'
+                          }`}>
+                            Grade: {student.grade}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </CardContent>
