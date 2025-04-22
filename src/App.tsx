@@ -1,12 +1,13 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import MainLayout from "./components/MainLayout";
+import Login from "./pages/auth/Login";
+import SignUp from "./pages/auth/SignUp";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
-import MainLayout from "./components/MainLayout";
 import Assignments from "./pages/Assignments";
 import ReadingMaterials from "./pages/ReadingMaterials";
 import Quizzes from "./pages/Quizzes";
@@ -31,6 +32,8 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route element={<MainLayout />}>
             <Route path="/" element={<Index />} />
             <Route path="/assignments" element={<Assignments />} />
@@ -52,7 +55,6 @@ const App = () => (
             <Route path="/practice" element={<div className="pt-32 container mx-auto">Practice Coming Soon</div>} />
             <Route path="/live-challenges" element={<div className="pt-32 container mx-auto">Live Challenges Coming Soon</div>} />
           </Route>
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
