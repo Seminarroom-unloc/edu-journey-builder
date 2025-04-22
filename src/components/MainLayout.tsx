@@ -8,7 +8,8 @@ import {
   SidebarMenuItem, 
   SidebarMenuButton,
   SidebarGroup,
-  SidebarGroupContent
+  SidebarGroupContent,
+  SidebarFooter
 } from "@/components/ui/sidebar";
 import { 
   LayoutDashboard, 
@@ -18,16 +19,26 @@ import {
   BookOpen,
   Code, 
   Zap,
-  User
+  User,
+  LogOut  // Added LogOut icon
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 export default function MainLayout() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // TODO: Implement Supabase logout logic
+    toast.success("Logged out successfully");
+    navigate("/login");
+  };
+
   return (
     <SidebarProvider defaultOpen={true}>
       <div className="min-h-screen flex w-full">
-        {/* Left Sidebar */}
         <Sidebar side="left" variant="sidebar" collapsible="icon">
           <SidebarContent>
             <div className="flex items-center h-16 px-4 border-b">
@@ -118,6 +129,19 @@ export default function MainLayout() {
                 </SidebarMenu>
               </SidebarGroupContent>
             </SidebarGroup>
+            
+            {/* New logout section at the bottom of the sidebar */}
+            <SidebarFooter className="border-t">
+              <SidebarMenuItem>
+                <SidebarMenuButton 
+                  onClick={handleLogout} 
+                  className="w-full text-destructive hover:bg-destructive/10"
+                >
+                  <LogOut className="mr-2" />
+                  <span>Logout</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarFooter>
           </SidebarContent>
         </Sidebar>
         
