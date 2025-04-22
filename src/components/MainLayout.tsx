@@ -1,4 +1,3 @@
-
 import { Outlet } from "react-router-dom";
 import { 
   SidebarProvider, 
@@ -20,7 +19,7 @@ import {
   Code, 
   Zap,
   User,
-  LogOut  // Added LogOut icon
+  LogOut
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -45,7 +44,6 @@ export default function MainLayout() {
               <h1 className="text-xl font-bold">Seminarroom</h1>
             </div>
             
-            {/* Profile Section */}
             <div className="px-4 py-4 border-b">
               <div className="flex items-center gap-3">
                 <Avatar>
@@ -59,7 +57,7 @@ export default function MainLayout() {
               </div>
             </div>
             
-            <SidebarGroup>
+            <SidebarGroup className="flex-1">
               <SidebarGroupContent>
                 <SidebarMenu>
                   <SidebarMenuItem>
@@ -130,8 +128,7 @@ export default function MainLayout() {
               </SidebarGroupContent>
             </SidebarGroup>
             
-            {/* New logout section at the bottom of the sidebar */}
-            <SidebarFooter className="border-t">
+            <SidebarFooter className="mt-auto border-t">
               <SidebarMenuItem>
                 <SidebarMenuButton 
                   onClick={handleLogout} 
@@ -145,7 +142,6 @@ export default function MainLayout() {
           </SidebarContent>
         </Sidebar>
         
-        {/* Main Content */}
         <div className="flex-1">
           <Outlet />
         </div>
