@@ -1,3 +1,4 @@
+
 import { Outlet } from "react-router-dom";
 import { 
   SidebarProvider, 
@@ -19,7 +20,8 @@ import {
   Code, 
   Zap,
   User,
-  LogOut
+  LogOut,
+  HelpCircle
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -33,6 +35,11 @@ export default function MainLayout() {
     // TODO: Implement Supabase logout logic
     toast.success("Logged out successfully");
     navigate("/login");
+  };
+
+  const handleSupport = () => {
+    // TODO: Implement support action
+    toast.info("Support feature coming soon");
   };
 
   return (
@@ -129,6 +136,15 @@ export default function MainLayout() {
             </SidebarGroup>
             
             <SidebarFooter className="mt-auto border-t">
+              <SidebarMenuItem>
+                <SidebarMenuButton 
+                  onClick={handleSupport} 
+                  className="w-full text-muted-foreground hover:bg-accent"
+                >
+                  <HelpCircle className="mr-2" />
+                  <span>Support</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton 
                   onClick={handleLogout} 
