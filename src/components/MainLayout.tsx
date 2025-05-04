@@ -25,7 +25,6 @@ import {
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
 export default function MainLayout() {
@@ -76,8 +75,8 @@ export default function MainLayout() {
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                   <SidebarMenuItem>
-                    <SidebarMenuButton asChild tooltip="Explore" isActive={window.location.pathname === "/explore"}>
-                      <Link to="/explore">
+                    <SidebarMenuButton asChild tooltip="Explore" isActive={window.location.pathname === "/" || window.location.pathname === "/explore"}>
+                      <Link to="/">
                         <Compass />
                         <span>Explore</span>
                       </Link>
@@ -100,8 +99,8 @@ export default function MainLayout() {
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                   <SidebarMenuItem>
-                    <SidebarMenuButton asChild tooltip="Courses" isActive={window.location.pathname === "/"}>
-                      <Link to="/">
+                    <SidebarMenuButton asChild tooltip="Courses" isActive={window.location.pathname === "/courses"}>
+                      <Link to="/courses">
                         <BookOpen />
                         <span>Courses</span>
                       </Link>
