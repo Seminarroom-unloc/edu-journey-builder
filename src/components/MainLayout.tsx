@@ -135,25 +135,28 @@ export default function MainLayout() {
               </SidebarGroupContent>
             </SidebarGroup>
             
-            <SidebarFooter className="mt-auto border-t">
-              <SidebarMenuItem>
-                <SidebarMenuButton 
-                  onClick={handleSupport} 
-                  className="w-full text-muted-foreground hover:bg-accent"
-                >
-                  <HelpCircle className="mr-2" />
-                  <span>Support</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton 
-                  onClick={handleLogout} 
-                  className="w-full text-destructive hover:bg-destructive/10"
-                >
-                  <LogOut className="mr-2" />
-                  <span>Logout</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+            <SidebarFooter>
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton 
+                    onClick={handleSupport} 
+                    tooltip="Support"
+                  >
+                    <HelpCircle />
+                    <span>Support</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton 
+                    onClick={handleLogout} 
+                    tooltip="Logout"
+                    className="text-destructive hover:bg-destructive/10"
+                  >
+                    <LogOut />
+                    <span>Logout</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
             </SidebarFooter>
           </SidebarContent>
         </Sidebar>
