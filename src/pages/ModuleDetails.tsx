@@ -24,7 +24,7 @@ const ModuleDetails = () => {
   const [module, setModule] = useState(null);
   const [moduleIndex, setModuleIndex] = useState(0);
   const [progress, setProgress] = useState(0);
-  const [showQuiz, setShowQuiz] = useState(false);  // New state to toggle quiz visibility
+  const [showForm, setShowForm] = useState(false);  // New state to manage quiz UI visibility
   const navigate = useNavigate();
   
   useEffect(() => {
@@ -99,7 +99,11 @@ const ModuleDetails = () => {
     if (progress > 60) return "bg-purple-500";
     return "bg-purple-500";
   };
-  
+
+  const handleBackToQuiz = () => {
+    setShowForm(false);  // Hide the Google Form iframe when going back
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <div className="pt-20 bg-purple-700 text-white">
@@ -244,69 +248,76 @@ const ModuleDetails = () => {
           
           <TabsContent value="quiz">
             <h2 className="text-xl font-semibold mb-4 text-purple-800">Quiz</h2>
-            <div className="grid gap-4 md:grid-cols-2">
-              {quizzes.map((quiz) => (
-                <Card key={quiz.id} className="bg-white border-purple-100 hover:shadow-md transition-shadow">
-                  <CardHeader className="pb-2">
-                    <div className="flex justify-between items-start mb-1">
-                      <Badge variant="outline" className="bg-purple-100 text-purple-800">
-                        {quiz.status === 'completed'
-                          ? 'Completed'
-                          : quiz.status === 'in-progress'
-                          ? 'In Progress'
-                          : 'Not Started'}
-                      </Badge>
-                    </div>
-                    <CardTitle className="text-lg">{quiz.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-2 gap-2 mb-4">
-                      <div className="text-sm">
-                        <div className="text-muted-foreground mb-1">Questions</div>
-                        <div className="flex items-center">
-                          <HelpCircle className="w-3.5 h-3.5 mr-1.5 text-purple-600" />
-                          {quiz.questions}
+            { !showForm && (
+              <div className="grid gap-4 md:grid-cols-2">
+                {quizzes.map((quiz) => (
+                  <Card key={quiz.id} className="bg-white border-purple-100 hover:shadow-md transition-shadow">
+                    <CardHeader className="pb-2">
+                      <div className="flex justify-between items-start mb-1">
+                        <Badge variant="outline" className="bg-purple-100 text-purple-800">
+                          {quiz.status === 'completed'
+                            ? 'Completed'
+                            : quiz.status === 'in-progress'
+                            ? 'In Progress'
+                            : 'Not Started'}
+                        </Badge>
+                      </div>
+                      <CardTitle className="text-lg">{quiz.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="grid grid-cols-2 gap-2 mb-4">
+                        <div className="text-sm">
+                          <div className="text-muted-foreground mb-1">Questions</div>
+                          <div className="flex items-center">
+                            <HelpCircle className="w-3.5 h-3.5 mr-1.5 text-purple-600" />
+                            {quiz.questions}
+                          </div>
+                        </div>
+                        <div className="text-sm">
+                          <div className="text-muted-foreground mb-1">Time Limit</div>
+                          <div className="flex items-center">
+                            <Clock className="w-3.5 h-3.5 mr-1.5 text-purple-600" />
+                            {quiz.timeLimit}
+                          </div>
+                        </div>
+                        <div className="text-sm col-span-2">
+                          <div className="text-muted-foreground mb-1">Available Until</div>
+                          <div className="flex items-center">
+                            <CalendarIcon className="w-3.5 h-3.5 mr-1.5 text-purple-600" />
+                            {quiz.availableUntil}
+                          </div>
                         </div>
                       </div>
-                      <div className="text-sm">
-                        <div className="text-muted-foreground mb-1">Time Limit</div>
-                        <div className="flex items-center">
-                          <Clock className="w-3.5 h-3.5 mr-1.5 text-purple-600" />
-                          {quiz.timeLimit}
-                        </div>
-                      </div>
-                      <div className="text-sm col-span-2">
-                        <div className="text-muted-foreground mb-1">Available Until</div>
-                        <div className="flex items-center">
-                          <CalendarIcon className="w-3.5 h-3.5 mr-1.5 text-purple-600" />
-                          {quiz.availableUntil}
-                        </div>
-                      </div>
-                    </div>
-                    <Button 
-                      className="w-full bg-purple-600 hover:bg-purple-700 text-white"
-                      onClick={() => setShowQuiz(true)}  // Toggle quiz visibility
-                    >
-                      Start Quiz
-                    </Button>
-                    {/* Show Google Form iframe when "Start Quiz" is clicked */}
-                    {showQuiz && (
-                      <div className="mt-4 rounded-lg overflow-hidden shadow-md">
-                        <iframe
-                          src={quiz.formUrl}
-                          width="100%"
-                          height="800"
-                          frameBorder="0"
-                          className="rounded-lg"
-                        >
-                          Loading…
-                        </iframe>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+                      <Button 
+                        className="w-full bg-purple-600 hover:bg-purple-700 text-white"
+                        onClick={() => setShowForm(true)}  // Show quiz form
+                      >
+                        Start Quiz
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
+            { showForm && (
+              <div className="mt-4 rounded-lg overflow-hidden shadow-md">
+                <iframe
+                  src={quizzes[0].formUrl}
+                  width="100%"
+                  height="800"
+                  frameBorder="0"
+                  className="rounded-lg"
+                >
+                  Loading…
+                </iframe>
+                <Button
+                  className="mt-4 w-full bg-purple-600 hover:bg-purple-700 text-white"
+                  onClick={handleBackToQuiz}  // Back to quiz button
+                >
+                  Back to Quiz
+                </Button>
+              </div>
+            )}
           </TabsContent>
         </Tabs>
       </div>
