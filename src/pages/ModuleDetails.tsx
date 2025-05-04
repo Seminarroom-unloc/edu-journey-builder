@@ -61,8 +61,18 @@ const ModuleDetails = () => {
   ];
   
   const videoLinks = [
-    { id: 'v1', title: `${module.title} - Video Tutorial 1`, duration: '15:30' },
-    { id: 'v2', title: `${module.title} - Video Tutorial 2`, duration: '12:45' },
+    { 
+      id: 'v1', 
+      title: `${module.title} - Video Tutorial 1`, 
+      duration: '15:30',
+      url: 'https://www.youtube.com/embed/dQw4w9WgXcQ' 
+    },
+    { 
+      id: 'v2', 
+      title: `${module.title} - Video Tutorial 2`, 
+      duration: '12:45',
+      url: 'https://www.youtube.com/embed/dQw4w9WgXcQ' 
+    },
   ];
   
   const assignments = [
@@ -189,11 +199,19 @@ const ModuleDetails = () => {
                     <CardTitle className="text-lg">{video.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
+                    <div className="aspect-video w-full mb-4 bg-black">
+                      <iframe
+                        src={video.url}
+                        className="w-full h-full"
+                        title={video.title}
+                        allowFullScreen
+                      ></iframe>
+                    </div>
                     <div className="flex items-center text-sm text-muted-foreground mb-3">
                       <Clock className="w-3.5 h-3.5 mr-1.5 text-purple-600" />
                       <span>{video.duration}</span>
                     </div>
-                    <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">Watch Video</Button>
+                    <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">Watch Full Video</Button>
                   </CardContent>
                 </Card>
               ))}
