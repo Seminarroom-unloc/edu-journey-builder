@@ -8,8 +8,8 @@ import { ArrowLeft, BookOpen, Calendar, Clock, Bookmark, CheckCircle, Lock } fro
 import { Badge } from '@/components/ui/badge';
 import { toast } from '@/components/ui/use-toast';
 
-// Define module status types
-type ModuleStatus = 'completed' | 'ongoing' | 'pending' | 'locked';
+// Define module status types - removing 'pending'
+type ModuleStatus = 'completed' | 'ongoing' | 'locked';
 
 const Course = () => {
   const [moduleStatuses, setModuleStatuses] = useState<ModuleStatus[]>([]);
@@ -18,12 +18,11 @@ const Course = () => {
     window.scrollTo(0, 0);
     
     // In a real app, this would come from user progress data
-    // For now, we'll set the first module as completed, second as ongoing, and the rest as pending/locked
+    // For now, we'll set the first module as completed, second as ongoing, and the rest as locked
     const initialStatuses: ModuleStatus[] = COURSE.modules.map((_, index) => {
       if (index === 0) return 'completed';
       if (index === 1) return 'ongoing';
-      if (index === 2) return 'pending';
-      return 'locked';
+      return 'locked'; // All modules after "ongoing" are locked
     });
     
     setModuleStatuses(initialStatuses);
@@ -54,8 +53,6 @@ const Course = () => {
         return <Badge className="bg-green-100 text-green-700 border-green-200">Completed</Badge>;
       case 'ongoing':
         return <Badge className="bg-orange-100 text-orange-700 border-orange-200">Ongoing</Badge>;
-      case 'pending':
-        return <Badge className="bg-purple-100 text-purple-700 border-purple-200">Pending</Badge>;
       case 'locked':
         return <Badge className="bg-gray-100 text-gray-700 border-gray-200">Locked</Badge>;
       default:
