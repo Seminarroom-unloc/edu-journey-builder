@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { COURSE } from '@/data/courseData';
@@ -22,9 +21,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 const ModuleDetails = () => {
   const { courseId, moduleId } = useParams();
   const [activeTab, setActiveTab] = useState('reading-materials');
-  const [module, setModule] = useState<any>(null);
+  const [module, setModule] = useState(null);
   const [moduleIndex, setModuleIndex] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [showQuiz, setShowQuiz] = useState(false);  // New state to toggle quiz visibility
   const navigate = useNavigate();
   
   useEffect(() => {
@@ -38,7 +38,6 @@ const ModuleDetails = () => {
       setModuleIndex(index);
       
       // Simulating progress - in a real app, this would come from user data
-      // For now, we're using a random value between 0 and 100
       setProgress(Math.floor(Math.random() * 100));
     }
   }, [courseId, moduleId]);
@@ -51,12 +50,11 @@ const ModuleDetails = () => {
     );
   }
   
-  const handleStartAssignment = (assignmentId: string) => {
+  const handleStartAssignment = (assignmentId) => {
     navigate(`/assignment/${courseId}/${assignmentId}`);
   };
   
   // Mock data for demonstration purposes
-  // In a real app, this would be fetched from an API based on the module ID
   const readingMaterials = [
     { id: 'r1', title: `${module.title} - Reading 1`, type: 'pdf', size: '2.5 MB' },
     { id: 'r2', title: `${module.title} - Reading 2`, type: 'pdf', size: '1.8 MB' },
@@ -84,7 +82,8 @@ const ModuleDetails = () => {
       questions: 10,
       timeLimit: '15 minutes',
       status: 'not-started',
-      availableUntil: '30 days from now'
+      availableUntil: '30 days from now',
+      formUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSdhvwIssi8f897-edomcWFnN32p2nPHLPlGl3CtdEoHO9qY1w/viewform?embedded=true'
     }
   ];
   
@@ -284,7 +283,26 @@ const ModuleDetails = () => {
                         </div>
                       </div>
                     </div>
-                    <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">Start Quiz</Button>
+                    <Button 
+                      className="w-full bg-purple-600 hover:bg-purple-700 text-white"
+                      onClick={() => setShowQuiz(true)}  // Toggle quiz visibility
+                    >
+                      Start Quiz
+                    </Button>
+                    {/* Show Google Form iframe when "Start Quiz" is clicked */}
+                    {showQuiz && (
+                      <div className="mt-4 rounded-lg overflow-hidden shadow-md">
+                        <iframe
+                          src={quiz.formUrl}
+                          width="100%"
+                          height="800"
+                          frameBorder="0"
+                          className="rounded-lg"
+                        >
+                          Loading…
+                        </iframe>
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               ))}

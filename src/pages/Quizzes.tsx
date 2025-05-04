@@ -1,4 +1,3 @@
-
 import Navbar from '@/components/Navbar';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -6,7 +5,20 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Clock, HelpCircle, Trophy } from 'lucide-react';
 
-const QUIZZES = [
+type Quiz = {
+  id: string;
+  title: string;
+  course: string;
+  description: string;
+  questions: number;
+  timeLimit: number;
+  status: 'completed' | 'pending' | 'in-progress';
+  score?: number;
+  formUrl: string;
+  progress?: number;  // Optional property for 'in-progress' quizzes
+};
+
+const QUIZZES: Quiz[] = [
   {
     id: '1',
     title: 'React Components and Props',
@@ -16,6 +28,7 @@ const QUIZZES = [
     timeLimit: 30,
     status: 'completed',
     score: 92,
+    formUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSdhvwIssi8f897-edomcWFnN32p2nPHLPlGl3CtdEoHO9qY1w/viewform?embedded=true',
   },
   {
     id: '2',
@@ -25,6 +38,7 @@ const QUIZZES = [
     questions: 20,
     timeLimit: 40,
     status: 'pending',
+    formUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSdhvwIssi8f897-edomcWFnN32p2nPHLPlGl3CtdEoHO9qY1w/viewform?embedded=true',
   },
   {
     id: '3',
@@ -33,38 +47,11 @@ const QUIZZES = [
     description: 'Test your understanding of core UI design principles and best practices.',
     questions: 18,
     timeLimit: 35,
-    status: 'completed',
-    score: 88,
-  },
-  {
-    id: '4',
-    title: 'RESTful API Fundamentals',
-    course: 'Building RESTful APIs with Node.js',
-    description: 'Evaluate your knowledge of RESTful API concepts and implementation details.',
-    questions: 25,
-    timeLimit: 45,
-    status: 'pending',
-  },
-  {
-    id: '5',
-    title: 'D3.js Basics',
-    course: 'Data Visualization with D3.js',
-    description: 'Test your understanding of D3.js fundamentals and basic visualization techniques.',
-    questions: 15,
-    timeLimit: 30,
     status: 'in-progress',
     progress: 60,
+    formUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSdhvwIssi8f897-edomcWFnN32p2nPHLPlGl3CtdEoHO9qY1w/viewform?embedded=true',
   },
-  {
-    id: '6',
-    title: 'React State Management',
-    course: 'Introduction to React Development',
-    description: 'Evaluate your knowledge of state management in React applications.',
-    questions: 18,
-    timeLimit: 35,
-    status: 'in-progress',
-    progress: 30,
-  },
+  // Add other quizzes here with respective form URLs
 ];
 
 const getStatusBadge = (status: string) => {
@@ -124,6 +111,17 @@ const Quizzes = () => {
                 <CardContent className="p-4 pt-0 md:p-6 md:pt-0">
                   <p className="text-muted-foreground mb-4">{quiz.description}</p>
                   
+                  {/* Embed Google Form here */}
+                  <iframe
+                    src={quiz.formUrl}
+                    width="100%"
+                    height="600"
+                    frameBorder="0"
+                    className="mb-4"
+                  >
+                    Loading…
+                  </iframe>
+
                   <div className="flex items-center justify-between text-sm text-muted-foreground mb-3">
                     <div className="flex items-center">
                       <HelpCircle className="w-3.5 h-3.5 mr-1.5" />
@@ -135,7 +133,8 @@ const Quizzes = () => {
                     </div>
                   </div>
                   
-                  {quiz.status === 'in-progress' && (
+                  {/* Only show progress bar if quiz is in-progress and has progress */}
+                  {quiz.status === 'in-progress' && quiz.progress !== undefined && (
                     <div className="space-y-1">
                       <div className="flex justify-between text-xs">
                         <span>Progress</span>
