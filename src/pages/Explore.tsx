@@ -2,13 +2,21 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Search, BookOpen, Clock, ArrowRight, Award, Users, Compass, Layout, Code } from "lucide-react";
+import { Search, BookOpen, Clock, ArrowRight, Award, Users, Compass, Layout, Code, Rocket, Star, GraduationCap, Globe } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
+import { 
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import CourseCard from "@/components/CourseCard";
 
 // Session card animation variants
 const cardVariants = {
@@ -58,6 +66,43 @@ const textVariants = {
     transition: { duration: 0.6 }
   }
 };
+
+// Featured courses for the carousel
+const FEATURED_COURSES = [
+  {
+    id: "f1",
+    title: "Modern Design Principles",
+    description: "Learn how to create stunning interfaces with modern design principles",
+    instructor: "Emily Parker",
+    instructorAvatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100",
+    duration: "6 weeks",
+    modules: 8,
+    level: "Intermediate" as const,
+    imgSrc: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?auto=format&fit=crop&w=800"
+  },
+  {
+    id: "f2",
+    title: "Advanced Data Analytics",
+    description: "Master the art of data visualization and predictive modeling",
+    instructor: "Michael Chen",
+    instructorAvatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100",
+    duration: "8 weeks",
+    modules: 12,
+    level: "Advanced" as const,
+    imgSrc: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800"
+  },
+  {
+    id: "f3",
+    title: "Cloud Architecture Fundamentals",
+    description: "Build scalable and resilient applications in the cloud",
+    instructor: "Sarah Johnson",
+    instructorAvatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=100",
+    duration: "5 weeks",
+    modules: 7,
+    level: "Beginner" as const,
+    imgSrc: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=800"
+  }
+];
 
 const SESSIONS = [
   {
@@ -132,6 +177,38 @@ const CATEGORIES = [
   { name: 'Leadership', count: 9, icon: <Award className="w-6 h-6" /> },
 ];
 
+// Stats for the ideology section
+const STATS = [
+  { number: "20K+", label: "Students", icon: <Users className="w-8 h-8 text-primary" /> },
+  { number: "300+", label: "Courses", icon: <BookOpen className="w-8 h-8 text-primary" /> },
+  { number: "97%", label: "Satisfaction Rate", icon: <Star className="w-8 h-8 text-primary" /> },
+  { number: "50+", label: "Countries", icon: <Globe className="w-8 h-8 text-primary" /> },
+];
+
+// Core values for the ideology section
+const CORE_VALUES = [
+  {
+    title: "Innovation",
+    description: "Pushing boundaries and exploring new frontiers in education and technology.",
+    icon: <Rocket className="w-8 h-8 text-primary" />
+  },
+  {
+    title: "Excellence",
+    description: "Committing to the highest standards in content and learning experiences.",
+    icon: <Award className="w-8 h-8 text-primary" />
+  },
+  {
+    title: "Community",
+    description: "Building connections that foster collaboration and shared growth.",
+    icon: <Users className="w-8 h-8 text-primary" />
+  },
+  {
+    title: "Accessibility",
+    description: "Making quality education available to everyone, everywhere.",
+    icon: <GraduationCap className="w-8 h-8 text-primary" />
+  }
+];
+
 const Explore = () => {
   const [viewType, setViewType] = useState<"grid" | "list">("list");
   const [searchTerm, setSearchTerm] = useState("");
@@ -176,7 +253,13 @@ const Explore = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-indigo-50 dark:from-slate-900 dark:to-slate-800">
       {/* Hero Section */}
-      <section className="pt-24 pb-16 px-4 md:px-6">
+      <section className="pt-24 pb-16 px-4 md:px-6 relative overflow-hidden">
+        {/* Abstract background shapes */}
+        <div className="absolute inset-0 overflow-hidden -z-10">
+          <div className="absolute top-0 left-0 w-96 h-96 bg-primary/10 rounded-full filter blur-3xl opacity-30 -translate-x-1/2 -translate-y-1/2"></div>
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-400/20 rounded-full filter blur-3xl opacity-30 translate-x-1/3 translate-y-1/3"></div>
+        </div>
+        
         <motion.div 
           className="container mx-auto max-w-6xl"
           variants={heroVariants}
@@ -227,15 +310,166 @@ const Explore = () => {
                 className="object-cover w-full h-full"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+              
+              {/* Interactive play button overlay */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <motion.div 
+                  className="bg-white/90 rounded-full p-4 cursor-pointer"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => toast.info("Video preview coming soon!")}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                </motion.div>
+              </div>
             </motion.div>
           </div>
         </motion.div>
       </section>
 
-      {/* Categories Section */}
+      {/* Featured Courses Carousel - New Modern Element */}
       <section className="py-12 px-4 md:px-6">
         <div className="container mx-auto max-w-6xl">
-          <h2 className="text-2xl font-bold mb-6">Popular Categories</h2>
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-2xl font-bold">Featured Courses</h2>
+            <Link to="/courses" className="text-primary flex items-center hover:underline">
+              View all <ArrowRight className="ml-1 h-4 w-4" />
+            </Link>
+          </div>
+          
+          <Carousel opts={{
+            align: "start",
+            loop: true,
+          }}>
+            <CarouselContent className="-ml-4">
+              {FEATURED_COURSES.map((course, index) => (
+                <CarouselItem key={course.id} className="pl-4 md:basis-1/2 lg:basis-1/3">
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <CourseCard {...course} />
+                  </motion.div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <div className="flex justify-end gap-2 mt-6">
+              <CarouselPrevious className="static transform-none bg-white" />
+              <CarouselNext className="static transform-none bg-white" />
+            </div>
+          </Carousel>
+        </div>
+      </section>
+
+      {/* About SeminarRoom - New Ideology Section */}
+      <section className="py-16 px-4 md:px-6 bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-950/30 dark:to-indigo-950/30 relative">
+        <div className="container mx-auto max-w-6xl">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">About SeminarRoom</h2>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              SeminarRoom is revolutionizing online education by connecting ambitious learners with world-class educators in an interactive, 
+              engaging environment designed for meaningful growth.
+            </p>
+          </motion.div>
+
+          {/* Stats Section */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+            {STATS.map((stat, index) => (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1, duration: 0.5 }}
+                className="bg-white dark:bg-slate-800 rounded-lg p-6 text-center shadow-sm hover:shadow-md transition-all"
+              >
+                <div className="flex justify-center mb-3">
+                  {stat.icon}
+                </div>
+                <h3 className="text-3xl font-bold text-primary mb-1">{stat.number}</h3>
+                <p className="text-muted-foreground">{stat.label}</p>
+              </motion.div>
+            ))}
+          </div>
+          
+          {/* Our Mission */}
+          <div className="grid md:grid-cols-2 gap-10 items-center mb-16">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+            >
+              <h3 className="text-2xl font-bold mb-4">Our Mission</h3>
+              <p className="mb-4 text-muted-foreground">
+                At SeminarRoom, we believe education should be transformative, accessible, and tailored to real-world needs. 
+                Our mission is to democratize access to high-quality learning experiences that empower individuals to reach 
+                their full potential.
+              </p>
+              <p className="mb-6 text-muted-foreground">
+                We're building a global community where knowledge is shared freely, connections are forged naturally, and 
+                growth is measured in both personal and professional achievements.
+              </p>
+              <Button className="gap-2">
+                Learn More About Us
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="relative"
+            >
+              {/* Stacked images with 3D effect */}
+              <div className="absolute top-4 -left-4 w-full h-full bg-primary/10 rounded-lg transform rotate-3"></div>
+              <div className="absolute top-2 -left-2 w-full h-full bg-primary/20 rounded-lg transform rotate-1"></div>
+              <div className="relative rounded-lg overflow-hidden shadow-md">
+                <img 
+                  src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&w=800" 
+                  alt="Our community"
+                  className="w-full h-auto object-cover aspect-[4/3]"
+                />
+              </div>
+            </motion.div>
+          </div>
+          
+          {/* Core Values */}
+          <h3 className="text-2xl font-bold mb-8 text-center">Our Core Values</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {CORE_VALUES.map((value, index) => (
+              <motion.div
+                key={value.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1, duration: 0.5 }}
+                className="bg-white dark:bg-slate-800 p-6 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-all"
+              >
+                <div className="mb-4 p-3 rounded-full bg-primary/10 w-fit">
+                  {value.icon}
+                </div>
+                <h4 className="text-xl font-semibold mb-2">{value.title}</h4>
+                <p className="text-muted-foreground">{value.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Categories Section with improved UI */}
+      <section className="py-12 px-4 md:px-6">
+        <div className="container mx-auto max-w-6xl">
+          <h2 className="text-2xl font-bold mb-8">Explore by Category</h2>
           
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {CATEGORIES.map((category, index) => (
@@ -244,7 +478,8 @@ const Explore = () => {
                 className="bg-white dark:bg-slate-800 p-5 rounded-lg border border-slate-200 dark:border-slate-700 hover:border-primary/40 hover:shadow-md transition-all duration-300 cursor-pointer flex flex-col items-center text-center"
                 variants={categoryVariants}
                 initial="hidden"
-                animate="visible"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-50px" }}
                 custom={index}
                 whileHover={{ y: -5, transition: { duration: 0.2 } }}
               >
@@ -259,7 +494,7 @@ const Explore = () => {
         </div>
       </section>
 
-      {/* Main Explore Section */}
+      {/* Main Explore Section with Glassmorphism effect */}
       <section className="py-12 px-4 md:px-6 pb-24">
         <div className="container mx-auto max-w-6xl">
           <div className="flex flex-col space-y-8">
@@ -277,7 +512,7 @@ const Explore = () => {
                   />
                 </div>
                 <Tabs defaultValue="all" value={activeTab} onValueChange={handleTabChange} className="hidden md:flex">
-                  <TabsList>
+                  <TabsList className="bg-slate-100 dark:bg-slate-800">
                     <TabsTrigger value="all">All</TabsTrigger>
                     <TabsTrigger value="featured">Featured</TabsTrigger>
                     <TabsTrigger value="popular">Popular</TabsTrigger>
@@ -324,13 +559,14 @@ const Explore = () => {
                     key={session.id}
                     variants={cardVariants}
                     initial="hidden"
-                    animate="visible"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-50px" }}
                     custom={index}
                     onHoverStart={() => setHoveredCard(session.id)}
                     onHoverEnd={() => setHoveredCard(null)}
                     whileHover={{ y: -5 }}
                   >
-                    <Card className={`overflow-hidden ${hoveredCard === session.id ? 'shadow-lg ring-1 ring-primary/20' : 'shadow'} transition-all duration-300`}>
+                    <Card className={`overflow-hidden backdrop-blur-sm bg-white/80 dark:bg-slate-800/80 border border-slate-200/70 dark:border-slate-700/70 ${hoveredCard === session.id ? 'shadow-lg ring-1 ring-primary/20' : 'shadow'} transition-all duration-300`}>
                       <CardContent className="p-0">
                         <div className={`flex ${viewType === "grid" ? "flex-col" : "flex-row"}`}>
                           <div className={`${viewType === "grid" ? "w-full h-48" : "w-36 h-36 md:w-48 md:h-48"} overflow-hidden bg-gray-200 relative`}>
@@ -399,3 +635,4 @@ const Explore = () => {
 };
 
 export default Explore;
+
