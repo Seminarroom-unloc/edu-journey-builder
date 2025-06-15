@@ -56,8 +56,7 @@ const MATERIALS = [
     duration: '45 mins',
     category: 'frontend',
     type: 'video',
-    imageSrc: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=2070&auto=format&fit=crop',
-    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ'
+    imageSrc: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=2070&auto=format&fit=crop'
   },
   {
     id: 'v2',
@@ -68,14 +67,11 @@ const MATERIALS = [
     duration: '1 hr 10 mins',
     category: 'frontend',
     type: 'video',
-    imageSrc: 'https://images.unsplash.com/photo-1581276879432-15e50529f34b?q=80&w=2070&auto=format&fit=crop',
-    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ'
+    imageSrc: 'https://images.unsplash.com/photo-1581276879432-15e50529f34b?q=80&w=2070&auto=format&fit=crop'
   }
 ];
 
 const ReadingMaterialsTab = ({ courseId }: ReadingMaterialsTabProps) => {
-  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
-  
   return (
     <div className="grid gap-6">
       <h2 className="text-2xl font-bold mb-4">Reading Materials</h2>
@@ -83,28 +79,15 @@ const ReadingMaterialsTab = ({ courseId }: ReadingMaterialsTabProps) => {
       {MATERIALS.map((material) => (
         <Card key={material.id} className="overflow-hidden flex flex-col md:flex-row hover:shadow-md transition-all duration-200">
           <div className="md:w-48 h-40 md:h-full overflow-hidden bg-muted relative">
-            {material.type === 'video' && selectedVideo === material.id ? (
-              <div className="w-full h-full">
-                <iframe 
-                  src={material.videoUrl}
-                  className="w-full h-full"
-                  title={material.title}
-                  allowFullScreen
-                ></iframe>
+            <img 
+              src={material.imageSrc} 
+              alt={material.title} 
+              className="w-full h-full object-cover"
+            />
+            {material.type === 'video' && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                <Play className="w-12 h-12 text-white fill-white" />
               </div>
-            ) : (
-              <>
-                <img 
-                  src={material.imageSrc} 
-                  alt={material.title} 
-                  className="w-full h-full object-cover"
-                />
-                {material.type === 'video' && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                    <Play className="w-12 h-12 text-white fill-white" />
-                  </div>
-                )}
-              </>
             )}
           </div>
           
@@ -140,34 +123,12 @@ const ReadingMaterialsTab = ({ courseId }: ReadingMaterialsTabProps) => {
                   <span>Duration: {material.duration}</span>
                 </div>
               </div>
-              
-              {material.type === 'video' && selectedVideo === material.id && (
-                <div className="aspect-video w-full mb-4 bg-black">
-                  <iframe 
-                    src={material.videoUrl}
-                    className="w-full h-full"
-                    title={material.title}
-                    allowFullScreen
-                  ></iframe>
-                </div>
-              )}
             </div>
             
             <div className="flex space-x-3 mt-auto">
-              {material.type === 'video' ? (
-                <Button 
-                  variant="default" 
-                  className="w-28"
-                  onClick={() => setSelectedVideo(selectedVideo === material.id ? null : material.id)}
-                >
-                  {selectedVideo === material.id ? 'Hide Video' : 'Watch Now'}
-                </Button>
-              ) : (
-                <Button variant="default" className="w-28">
-                  Read Now
-                </Button>
-              )}
-              
+              <Button variant="default" className="w-28">
+                {material.type === 'video' ? 'Watch Now' : 'Read Now'}
+              </Button>
               {material.type === 'pdf' && (
                 <Button variant="outline" className="w-28">
                   <Download className="w-4 h-4 mr-2" />

@@ -3,7 +3,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { format, isBefore, isToday, addDays, isAfter, isSameDay } from "date-fns";
 import { Button } from "@/components/ui/button";
-import { Filter, CalendarClock, Clock } from "lucide-react";
+import { Filter, CalendarClock } from "lucide-react";
 import { 
   Dialog, 
   DialogContent, 
@@ -161,122 +161,72 @@ const CalendarPage = () => {
   };
 
   const renderEventIndicators = (day: Date) => {
-    return null;
-  };
+    const dayEvents = getEventsForDay(day);
 
-  // Get upcoming deadlines sorted by date
-  const upcomingDeadlines = events
-    .filter(event => isAfter(event.date, currentDate))
-    .sort((a, b) => a.date.getTime() - b.date.getTime())
-    .slice(0, 10); // Show more events since we have more space
+    if (dayEvents.length === 0) return null;
+
+    return (
+      <div className="absolute bottom-1 left-0 right-0 flex justify-center gap-1">
+        {dayEvents.slice(0, 3).map((event, index) => (
+          <div 
+            key={index}
+            className={`h-1.5 w-1.5 rounded-full ${
+              event.type === 'course' ? 'bg-blue-500' : 
+              event.type === 'quiz' ? 'bg-amber-500' : 
+              'bg-green-500'
+            }`}
+          />
+        ))}
+        {dayEvents.length > 3 && (
+          <div className="text-xs text-muted-foreground">+{dayEvents.length - 3}</div>
+        )}
+      </div>
+    );
+  };
 
   return (
     <div className="container mx-auto py-8">
       <h1 className="text-2xl font-bold mb-6">Calendar</h1>
       
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Calendar Section */}
-        <Card className="lg:col-span-2">
-          <CardHeader className="flex flex-row items-center justify-between px-6">
-            <CardTitle className="text-xl">{format(date, 'MMMM yyyy')}</CardTitle>
-            <div className="flex gap-4 items-center">
-              <div className="hidden md:flex items-center gap-4">
-                {upcomingDeadlines.length > 0 && (
-                  <div className="flex items-center gap-2">
-                    <Clock className="h-4 w-4 text-primary" />
-                    <span className="text-sm font-medium">Next: {upcomingDeadlines[0].name} - {format(upcomingDeadlines[0].date, 'MMM d, h:mm a')}</span>
-                  </div>
-                )}
-              </div>
-              <Button variant="outline" size="sm">
-                <Filter className="h-4 w-4 mr-2" />
-                Filter
-              </Button>
-            </div>
-          </CardHeader>
-          <CardContent className="p-6">
-            <TooltipProvider>
-              <Calendar
-                mode="default"
-                className="rounded-md border w-full max-w-none"
-                style={{ minWidth: "100%" }}
-                onMonthChange={setDate}
-                onDayClick={handleDayClick}
-                components={{
-                  DayContent: ({ date, ...props }) => {
-                    return (
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <div className="relative h-14 w-14 p-2 font-normal aria-selected:opacity-100 flex items-center justify-center hover:bg-muted/50 rounded-md cursor-pointer">
-                            <div>{date.getDate()}</div>
-                            {renderEventIndicators(date)}
-                          </div>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          {getEventsForDay(date).length > 0 
-                            ? `${getEventsForDay(date).length} events`
-                            : "No events"}
-                        </TooltipContent>
-                      </Tooltip>
-                    );
-                  }
-                }}
-              />
-            </TooltipProvider>
-          </CardContent>
-        </Card>
-
-        {/* Upcoming Deadlines Section - Now beside the calendar */}
-        <Card className="lg:col-span-1">
-          <CardHeader className="px-6">
-            <CardTitle className="text-xl flex items-center gap-2">
-              <Clock className="h-5 w-5 text-primary" />
-              Upcoming Deadlines
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="p-6">
-            {upcomingDeadlines.length > 0 ? (
-              <div className="space-y-4 max-h-[600px] overflow-y-auto">
-                {upcomingDeadlines.map((event) => (
-                  <div 
-                    key={event.id}
-                    className="p-3 rounded-md border cursor-pointer transition-colors hover:bg-muted/50"
-                    onClick={() => handleEventClick(event)}
-                  >
-                    <div className="flex items-center gap-2 mb-1">
-                      <div className={`h-3 w-3 rounded-full ${
-                        event.type === 'course' ? 'bg-blue-500' : 
-                        event.type === 'quiz' ? 'bg-amber-500' : 
-                        'bg-green-500'
-                      }`} />
-                      <p className="font-medium text-sm">{event.name}</p>
-                    </div>
-                    <p className="text-xs text-muted-foreground">
-                      {format(event.date, 'EEEE, MMM d')}
-                    </p>
-                    <p className="text-xs text-muted-foreground flex items-center gap-1">
-                      <CalendarClock className="h-3 w-3" />
-                      {format(event.date, 'h:mm a')} - {format(event.endDate, 'h:mm a')}
-                    </p>
-                    <div className="flex flex-wrap gap-1 mt-2">
-                      {event.tags.slice(0, 2).map((tag, index) => (
-                        <span key={index} className="text-xs bg-muted px-1.5 py-0.5 rounded">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="flex flex-col items-center justify-center h-32">
-                <CalendarClock className="h-12 w-12 text-muted-foreground mb-3" />
-                <p className="text-muted-foreground text-center text-sm">No upcoming deadlines</p>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      </div>
+      <Card className="w-full">
+        <CardHeader className="flex flex-row items-center justify-between px-6">
+          <CardTitle className="text-xl">{format(date, 'MMMM yyyy')}</CardTitle>
+          <Button variant="outline" size="sm">
+            <Filter className="h-4 w-4 mr-2" />
+            Filter
+          </Button>
+        </CardHeader>
+        <CardContent className="p-6">
+          <TooltipProvider>
+            <Calendar
+              mode="default"
+              className="rounded-md border w-full max-w-none"
+              style={{ minWidth: "100%" }}
+              onMonthChange={setDate}
+              onDayClick={handleDayClick}
+              components={{
+                DayContent: ({ date, ...props }) => {
+                  return (
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <div className="relative h-14 w-14 p-2 font-normal aria-selected:opacity-100 flex items-center justify-center hover:bg-muted/50 rounded-md cursor-pointer">
+                          <div>{date.getDate()}</div>
+                          {renderEventIndicators(date)}
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        {getEventsForDay(date).length > 0 
+                          ? `${getEventsForDay(date).length} events`
+                          : "No events"}
+                      </TooltipContent>
+                    </Tooltip>
+                  );
+                }
+              }}
+            />
+          </TooltipProvider>
+        </CardContent>
+      </Card>
 
       <Dialog open={isDateDialogOpen} onOpenChange={setIsDateDialogOpen}>
         <DialogContent className="sm:max-w-[500px]">

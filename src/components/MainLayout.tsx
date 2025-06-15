@@ -8,8 +8,7 @@ import {
   SidebarMenuItem, 
   SidebarMenuButton,
   SidebarGroup,
-  SidebarGroupContent,
-  SidebarFooter
+  SidebarGroupContent
 } from "@/components/ui/sidebar";
 import { 
   LayoutDashboard, 
@@ -19,37 +18,23 @@ import {
   BookOpen,
   Code, 
   Zap,
-  User,
-  LogOut,
-  HelpCircle
+  User
 } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { toast } from "sonner";
 
 export default function MainLayout() {
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    // TODO: Implement Supabase logout logic
-    toast.success("Logged out successfully");
-    navigate("/login");
-  };
-
-  const handleSupport = () => {
-    // TODO: Implement support action
-    toast.info("Support feature coming soon");
-  };
-
   return (
     <SidebarProvider defaultOpen={true}>
       <div className="min-h-screen flex w-full">
+        {/* Left Sidebar */}
         <Sidebar side="left" variant="sidebar" collapsible="icon">
           <SidebarContent>
             <div className="flex items-center h-16 px-4 border-b">
               <h1 className="text-xl font-bold">Seminarroom</h1>
             </div>
             
+            {/* Profile Section */}
             <div className="px-4 py-4 border-b">
               <div className="flex items-center gap-3">
                 <Avatar>
@@ -63,7 +48,7 @@ export default function MainLayout() {
               </div>
             </div>
             
-            <SidebarGroup className="flex-1">
+            <SidebarGroup>
               <SidebarGroupContent>
                 <SidebarMenu>
                   <SidebarMenuItem>
@@ -75,8 +60,8 @@ export default function MainLayout() {
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                   <SidebarMenuItem>
-                    <SidebarMenuButton asChild tooltip="Explore" isActive={window.location.pathname === "/" || window.location.pathname === "/explore"}>
-                      <Link to="/">
+                    <SidebarMenuButton asChild tooltip="Explore" isActive={window.location.pathname === "/explore"}>
+                      <Link to="/explore">
                         <Compass />
                         <span>Explore</span>
                       </Link>
@@ -99,8 +84,8 @@ export default function MainLayout() {
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                   <SidebarMenuItem>
-                    <SidebarMenuButton asChild tooltip="Courses" isActive={window.location.pathname === "/courses"}>
-                      <Link to="/courses">
+                    <SidebarMenuButton asChild tooltip="Courses" isActive={window.location.pathname === "/"}>
+                      <Link to="/">
                         <BookOpen />
                         <span>Courses</span>
                       </Link>
@@ -133,33 +118,10 @@ export default function MainLayout() {
                 </SidebarMenu>
               </SidebarGroupContent>
             </SidebarGroup>
-            
-            <SidebarFooter>
-              <SidebarMenu>
-                <SidebarMenuItem>
-                  <SidebarMenuButton 
-                    onClick={handleSupport} 
-                    tooltip="Support"
-                  >
-                    <HelpCircle />
-                    <span>Support</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-                <SidebarMenuItem>
-                  <SidebarMenuButton 
-                    onClick={handleLogout} 
-                    tooltip="Logout"
-                    className="text-destructive hover:bg-destructive/10"
-                  >
-                    <LogOut />
-                    <span>Logout</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              </SidebarMenu>
-            </SidebarFooter>
           </SidebarContent>
         </Sidebar>
         
+        {/* Main Content */}
         <div className="flex-1">
           <Outlet />
         </div>
