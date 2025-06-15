@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { COURSE } from '@/data/courseData';
@@ -15,7 +14,8 @@ import {
   Clock,
   ListOrdered,
   CheckCircle,
-  Calendar as CalendarIcon
+  Calendar as CalendarIcon,
+  Play
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -63,8 +63,20 @@ const ModuleDetails = () => {
   ];
   
   const videoLinks = [
-    { id: 'v1', title: `${module.title} - Video Tutorial 1`, duration: '15:30' },
-    { id: 'v2', title: `${module.title} - Video Tutorial 2`, duration: '12:45' },
+    { 
+      id: 'v1', 
+      title: `${module.title} - Video Tutorial 1`, 
+      duration: '15:30',
+      thumbnail: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=400&h=225&auto=format&fit=crop',
+      imageSrc: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=2070&auto=format&fit=crop'
+    },
+    { 
+      id: 'v2', 
+      title: `${module.title} - Video Tutorial 2`, 
+      duration: '12:45',
+      thumbnail: 'https://images.unsplash.com/photo-1581276879432-15e50529f34b?q=80&w=400&h=225&auto=format&fit=crop',
+      imageSrc: 'https://images.unsplash.com/photo-1581276879432-15e50529f34b?q=80&w=2070&auto=format&fit=crop'
+    },
   ];
   
   const assignments = [
@@ -179,19 +191,49 @@ const ModuleDetails = () => {
           
           <TabsContent value="videos">
             <h2 className="text-xl font-semibold mb-4 text-purple-800">Video Lectures</h2>
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid gap-6">
               {videoLinks.map((video) => (
-                <Card key={video.id} className="bg-white border-purple-100 hover:shadow-md transition-shadow">
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-lg">{video.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center text-sm text-muted-foreground mb-3">
-                      <Clock className="w-3.5 h-3.5 mr-1.5 text-purple-600" />
-                      <span>{video.duration}</span>
+                <Card key={video.id} className="overflow-hidden flex flex-col md:flex-row hover:shadow-md transition-all duration-200 bg-white border-purple-100">
+                  <div className="md:w-64 h-48 md:h-full overflow-hidden bg-muted relative">
+                    <img 
+                      src={video.thumbnail} 
+                      alt={video.title} 
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+                      <div className="bg-white rounded-full p-3 shadow-lg">
+                        <Play className="w-8 h-8 text-gray-800 fill-gray-800 ml-1" />
+                      </div>
                     </div>
-                    <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">Watch Video</Button>
-                  </CardContent>
+                    <div className="absolute bottom-2 right-2 bg-black/80 text-white px-2 py-1 rounded text-xs font-medium">
+                      {video.duration}
+                    </div>
+                  </div>
+                  
+                  <div className="flex-grow flex flex-col justify-between p-5">
+                    <div>
+                      <div className="flex items-start justify-between mb-2">
+                        <CardTitle className="text-xl">{video.title}</CardTitle>
+                        <Badge variant="outline" className="bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400">
+                          <div className="flex items-center">
+                            <Video className="w-3 h-3 mr-1" />
+                            Video
+                          </div>
+                        </Badge>
+                      </div>
+                      
+                      <div className="flex items-center text-sm text-muted-foreground mb-4">
+                        <Clock className="w-3.5 h-3.5 mr-1.5 text-purple-600" />
+                        <span>Duration: {video.duration}</span>
+                      </div>
+                    </div>
+                    
+                    <div className="flex space-x-3 mt-auto">
+                      <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
+                        Watch Now
+                      </Button>
+                    </div>
+                  </div>
                 </Card>
               ))}
             </div>
