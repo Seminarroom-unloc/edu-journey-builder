@@ -18,6 +18,9 @@ const ProfileDetails = () => {
     location: "San Francisco, CA",
     occupation: "Student",
     interests: "Web Development, Data Science, AI",
+    yearOfStudy: "3rd Year",
+    collegeName: "Stanford University",
+    courseName: "Computer Science"
   });
 
   const handleInputChange = (
@@ -100,6 +103,36 @@ const ProfileDetails = () => {
               />
             </div>
             <div className="space-y-2">
+              <Label htmlFor="collegeName">College Name</Label>
+              <Input
+                id="collegeName"
+                name="collegeName"
+                value={profileData.collegeName}
+                onChange={handleInputChange}
+                disabled={!isEditing}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="courseName">Course Name</Label>
+              <Input
+                id="courseName"
+                name="courseName"
+                value={profileData.courseName}
+                onChange={handleInputChange}
+                disabled={!isEditing}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="yearOfStudy">Year of Study</Label>
+              <Input
+                id="yearOfStudy"
+                name="yearOfStudy"
+                value={profileData.yearOfStudy}
+                onChange={handleInputChange}
+                disabled={!isEditing}
+              />
+            </div>
+            <div className="space-y-2">
               <Label htmlFor="occupation">Occupation</Label>
               <Input
                 id="occupation"
@@ -109,7 +142,7 @@ const ProfileDetails = () => {
                 disabled={!isEditing}
               />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2 md:col-span-2">
               <Label htmlFor="interests">Interests</Label>
               <Input
                 id="interests"
